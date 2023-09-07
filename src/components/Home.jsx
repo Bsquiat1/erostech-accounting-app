@@ -1,7 +1,10 @@
 import React from 'react'
+import CustomerEnquiry from './CustomerEnquiry'
 
 export default function Home() {
   return (
-    <div>Home</div>
+    <div>
+      < CustomerEnquiry />
+    </div>
   )
 }

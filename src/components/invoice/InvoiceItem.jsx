@@ -1,7 +1,7 @@
 import React from 'react';
 import InvoiceField from './InvoiceField';
 
-const InvoiceItem = ({ id, name, qty, price, onDeleteItem, onEdtiItem }) => {
+const InvoiceItem = ({ id, name, qty, price, onDeleteItem, onEditItem }) => {
   const deleteItemHandler = () => {
     onDeleteItem(id);
   };
@@ -10,29 +10,31 @@ const InvoiceItem = ({ id, name, qty, price, onDeleteItem, onEdtiItem }) => {
     <tr className="border-t border-gray-300">
       <td className="py-2">
         <InvoiceField
-          onEditItem={(event) => onEdtiItem(event)}
+          onEditItem={onEditItem}
           cellData={{
             placeholder: 'Item name',
             type: 'text',
             name: 'name',
             id: id,
             value: name,
+            className: 'w-full px-2 py-1 border rounded-md shadow-sm focus:ring focus:ring-blue-200',
           }}
         />
       </td>
       <td className="py-2 min-w-[65px] md:min-w-[80px]">
         <InvoiceField
-          onEditItem={(event) => onEdtiItem(event)}
+          onEditItem={onEditItem}
           cellData={{
             type: 'number',
             min: '1',
             name: 'qty',
             id: id,
             value: qty,
+            className: 'w-full px-2 py-1 border rounded-md shadow-sm focus:ring focus:ring-blue-200',
           }}
         />
       </td>
-      <td className="py-2">
+      <td className="py-2 relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="absolute left-2 top-1/2 h-6 w-6 -translate-y-1/2 text-gray-400 sm:left-4"
@@ -48,7 +50,7 @@ const InvoiceItem = ({ id, name, qty, price, onDeleteItem, onEdtiItem }) => {
           />
         </svg>
         <InvoiceField
-          onEditItem={(event) => onEdtiItem(event)}
+          onEditItem={onEditItem}
           cellData={{
             className: 'text-right',
             type: 'number',
@@ -57,10 +59,11 @@ const InvoiceItem = ({ id, name, qty, price, onDeleteItem, onEdtiItem }) => {
             name: 'price',
             id: id,
             value: price,
+            className: 'w-full px-2 py-1 pl-10 border rounded-md shadow-sm focus:ring focus:ring-blue-200',
           }}
         />
       </td>
-      <td className="py-2">
+      <td className="py-2 px-7">
         <button
           onClick={deleteItemHandler}
           className="text-red-500 hover:text-red-600"

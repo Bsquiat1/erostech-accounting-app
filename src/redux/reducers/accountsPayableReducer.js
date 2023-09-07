@@ -3,7 +3,7 @@
 // Define your initial state
 const initialState = {
   // Define your initial state properties here
-  // For example:
+
   invoices: [],
   payments: [],
 };
@@ -11,7 +11,7 @@ const initialState = {
 const accountsPayableReducer = (state = initialState, action) => {
   switch (action.type) {
     // Define your action types and corresponding state updates
-    // For example:
+  
     case 'ADD_INVOICE':
       return {
         ...state,
