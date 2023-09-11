@@ -24,6 +24,7 @@ import ProformaInvoice from './components/ProformaInvoice';
 import OrderConfirmation from './components/OrderConfirmation';
 import PaymentReceived from './components/PaymentReceived';
 import LoadAuthority from './components/LoadAuthority';
+import Settings from './components/Settings';
 
 const App = () => {
   return (
@@ -51,6 +52,7 @@ const App = () => {
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/payment-received" element={<PaymentReceived />} />
           <Route path="/load-authority" element={<LoadAuthority />} />
+          <Route path="/settins" element={<Settings />} />
         </Routes>
       </Router>
     </Provider>

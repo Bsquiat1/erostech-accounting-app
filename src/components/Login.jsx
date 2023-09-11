@@ -2,23 +2,28 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
-const Login= () => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const navigate = useNavigate();
-
-
- 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/login', { email, password });
+      const response = await axios.post('/users/sign_in', {
+        user: {
+          email,
+          password,
+        },
+      });
+
       // Assuming successful response here
       console.log('Logged in successfully!', response.data);
+
+      // Store the JWT token in localStorage or cookies if your backend returns it
+      localStorage.setItem('token', response.data.token);
+
       // Redirect to a dashboard or home page
       navigate('/dashboard');
     } catch (error) {
@@ -32,7 +37,9 @@ const Login= () => {
         <h2 className="text-2xl font-semibold mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block font-medium mb-1">Email</label>
+            <label htmlFor="email" className="block font-medium mb-1">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -43,7 +50,9 @@ const Login= () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block font-medium mb-1">Password</label>
+            <label htmlFor="password" className="block font-medium mb-1">
+              Password
+            </label>
             <input
               type="password"
               id="password"

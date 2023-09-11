@@ -10,6 +10,8 @@ export default defineConfig({
       '/customers': 'http://localhost:3000',
       '/users': 'http://localhost:3000',
       '/api': 'http://localhost:3000',
+      '/member_details': 'http://localhost:3000',
+      
 
     }
   }

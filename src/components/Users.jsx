@@ -22,7 +22,7 @@ function Users() {
 
   const handleDelete = (userId) => {
     // Send a DELETE request to the backend API to delete the user
-    axios.delete(`/users/${userId}`) // Replace with your API endpoint for deleting users
+    axios.delete(`/users/${userId}`) 
       .then(() => {
         // Remove the deleted user from the state
         setUsers(users.filter((user) => user.id !== userId));
