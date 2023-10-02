@@ -7,7 +7,7 @@ function Customers() {
 
   useEffect(() => {
     // Fetch customers from the backend API when the component mounts
-    axios.get('/customers') // Replace with your API endpoint for fetching customers
+    axios.get('/customers')
       .then((response) => {
         setCustomers(response.data);
       })
@@ -18,9 +18,9 @@ function Customers() {
 
   const handleDelete = (customerId) => {
     // Send a DELETE request to the backend API to delete the customer
-    axios.delete(`/customers/${customerId}`) // Replace with your API endpoint for deleting customers
+    axios.delete(`/customers/${customerId}`) 
       .then(() => {
-        // Remove the deleted customer from the state
+        
         setCustomers(customers.filter((customer) => customer.id !== customerId));
       })
       .catch((error) => {
@@ -80,9 +80,11 @@ function Customers() {
               <td className="px-6 py-4">
                 {customer.address}
               </td>
-              <td className="px-6 py-4">
-                <button onClick={() => handleDelete(customer.id)} className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
-              </td>
+              <button onClick={() => handleDelete(customer.id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ">
+  <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
+  </svg>
+</button>
             </tr>
           ))}
         </tbody>

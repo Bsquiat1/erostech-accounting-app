@@ -1,61 +1,67 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './redux/store';
 
-import NavBar from './components/Navbar';
+
+import NavBar from './components/navigation/Navbar';
 import Home from './components/Home';
 import InventoryForm from './components/inventory/InventoryForm';
 import InventoryList from './components/inventory/InventoryList';
 import Sales from './components/Sales';
 import Login from './components/Login';
 import Register from './components/Register';
-import GeneralLedger from './components/accounting/GeneralLedger';
-import AccountsPayable from './components/accounting/AccountsPayable';
-import AccountsReceivable from './components/accounting/AccountsReceivable';
-import FinancialReporting from './components/accounting/FinancialReporting';
 import Dashboard from './components/Dashboard';
 import InvoiceForm from './components/invoice/InvoiceForm';
 import Customers from './components/Customers';
-import Users from './components/Users';
-import Suppliers from './components/Suppliers';
-import CustomerEnquiry from './components/CustomerEnquiry';
-import ProformaInvoice from './components/ProformaInvoice';
-import OrderConfirmation from './components/OrderConfirmation';
-import PaymentReceived from './components/PaymentReceived';
-import LoadAuthority from './components/LoadAuthority';
+import Companies from './components/company/Companies';
+import CustomerEnquiry from './components/sales/CustomerEnquiry';
+import ProformaInvoice from './components/sales/ProformaInvoice';
+import OrderConfirmation from './components/sales/OrderConfirmation';
+import PaymentReceived from './components/sales/PaymentReceived';
+import LoadAuthority from './components/sales/LoadAuthority';
 import Settings from './components/Settings';
+import Invoices from './components/invoices/Invoices';
+import GatePass from './components/sales/GatePass';
+import SupplyInvoice from './supply/SupplyInvoice';
+
+import Suppliers from './components/suppliers/Suppliers';
+import SalesInvoice from './components/sales/SalesInvoice';
 
 const App = () => {
+  
+
   return (
-    <Provider store={store}>
+   
       <Router>
         <NavBar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/inventory" element={<InventoryList />} />
           <Route path="/inventory/add" element={<InventoryForm />} />
           <Route path="/sales" element={<Sales />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
-          <Route path="/general-ledger" element={<GeneralLedger />} />
-          <Route path="/accounts-payable" element={<AccountsPayable />} />
-          <Route path="/accounts-receivable" element={<AccountsReceivable />} />
-          <Route path="/financial-reporting" element={<FinancialReporting />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/invoices" element={<InvoiceForm />} />
+          <Route path="/invoice-form" element={<InvoiceForm />} />
           <Route path="/customer-data" element={<Customers />} />
-          <Route path="/user-data" element={<Users />} />
-          <Route path="/supplier-data" element={<Suppliers />} />
+          <Route path="/company-data" element={<Companies />} />
+          
           <Route path="/customer-enquiry" element={<CustomerEnquiry />} />
           <Route path="/proforma-invoice" element={<ProformaInvoice />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/payment-received" element={<PaymentReceived />} />
           <Route path="/load-authority" element={<LoadAuthority />} />
-          <Route path="/settins" element={<Settings />} />
+          <Route path="/generate-invoice" element={<Invoices />} />
+          <Route path="/generate-gate-pass" element={<GatePass />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/invoice-data" element={<Invoices/>} />
+          <Route path="/supply-invoice" element={<SupplyInvoice />} />
+          
+          <Route path="/suppliers" element={<Suppliers />} />
+          <Route path="/sales-invoice" element={<SalesInvoice />} />
+
         </Routes>
       </Router>
-    </Provider>
+  
   );
 };
 

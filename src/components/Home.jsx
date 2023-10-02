@@ -1,5 +1,5 @@
 import React from 'react'
-import CustomerEnquiry from './CustomerEnquiry'
+import CustomerEnquiry from './sales/CustomerEnquiry'
 
 export default function Home() {
   return (

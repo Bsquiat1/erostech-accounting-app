@@ -107,7 +107,7 @@ const InvoiceForm = () => {
     <div className="flex items-center h-screen ml-64">
       <div
         className="p-6 space-y-6 bg-white rounded-md shadow-lg mt-64"
-        style={{ width: '19.27in', height: '12.69in' }} // A4 paper size
+        style={{ width: '19.27in', height: '12.69in' }} 
       >
         <h1 className="text-2xl font-semibold text-center mb-4">INVOICE FORM</h1>
         <div className="flex justify-between">

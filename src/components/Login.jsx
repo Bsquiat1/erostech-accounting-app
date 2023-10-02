@@ -5,29 +5,27 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/users/sign_in', {
-        user: {
-          email,
-          password,
-        },
+     
+      const response = await axios.post('/users/sign_up', {
+        email,
+        password,
       });
 
-      // Assuming successful response here
-      console.log('Logged in successfully!', response.data);
+      
+      console.log('Login successful. Response:', response.data);
 
-      // Store the JWT token in localStorage or cookies if your backend returns it
-      localStorage.setItem('token', response.data.token);
-
-      // Redirect to a dashboard or home page
+     
       navigate('/dashboard');
     } catch (error) {
-      console.error('Login error:', error.response.data);
+      console.error('Login error:', error);
+      setErrorMessage('Login failed. Please check your email and password.');
     }
   };
 
@@ -35,6 +33,11 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="p-6 max-w-md w-full bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-semibold mb-4">Login</h2>
+        {errorMessage && (
+          <div className="mb-4 text-red-500">
+            Error: {errorMessage}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block font-medium mb-1">

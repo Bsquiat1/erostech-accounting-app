@@ -11,6 +11,9 @@ export default defineConfig({
       '/users': 'http://localhost:3000',
       '/api': 'http://localhost:3000',
       '/member_details': 'http://localhost:3000',
+      '/invoices': 'http://localhost:3000',
+      '/loading_depots': 'http://localhost:3000',
+      
       
 
     }
