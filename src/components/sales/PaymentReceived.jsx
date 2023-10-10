@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setTotal } from '../../redux/invoiceSlice';
+import { setTotals } from '../../redux/invoiceSlice';
 import { Link } from 'react-router-dom';
 
 const PaymentReceived = () => {
-  const total = useSelector((state) => state.invoice.total);
+  const total = useSelector((state) => state.invoice.invoiceData.total);
   const dispatch = useDispatch();
 
   const handlePaymentReceived = () => {
@@ -20,12 +20,19 @@ const PaymentReceived = () => {
     <div className="p-8 max-w-md mx-auto bg-white shadow-xl rounded-lg mt-64">
       <h2 className="text-2xl font-semibold mb-4">Payment Received?</h2>
       <p className="text-xl font-bold text-green-500 mb-8">Total Amount: ${total}</p>
-      <Link to="/load-authority"><button
-        className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 focus:outline-none"
-        onClick={handlePaymentReceived}
-      >
-        Payment Received
-      </button></Link>
+      <div className="flex justify-between">
+        <button
+          className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 focus:outline-none mr-2"
+        >
+         <Link to="/customer-enquiry">No</Link> 
+        </button>
+        <button
+          className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 focus:outline-none"
+          onClick={handlePaymentReceived}
+        >
+          <Link to="/load-authority">Yes</Link>
+        </button>
+      </div>
     </div>
   );
 };

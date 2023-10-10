@@ -1,40 +1,45 @@
-// redux/invoiceSlice.js
+
 
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  invoiceData: null,
-  subtotal: 0,
-  tax: 0,
-  total: 0,
+  invoiceData: {
+    invoiceNumber: '',
+    date: new Date(),
+    billingDate: new Date(),
+    dueDate: new Date(),
+  
+    subtotal: 0,
+    tax: 0,
+    total: 0,
+    currency: 'KSH',
+  },
+  rows: [
+    { description: '', unitPrice: '', quantity: '', total: '' },
+  ],
 };
 
-
 const invoiceSlice = createSlice({
-  name: 'invoice',
+  name: 'supply',
   initialState,
   reducers: {
     setInvoiceData: (state, action) => {
-      state.invoiceData = action.payload;
+      state.invoiceData = { ...state.invoiceData, ...action.payload };
     },
-    setSubtotal: (state, action) => {
-      state.subtotal = action.payload;
+    setRows: (state, action) => {
+      state.rows = action.payload;
     },
-
-    setTax: (state, action) => {
-      state.tax = action.payload;
+    setTotals: (state, action) => {
+      state.invoiceData.subtotal = action.payload.subtotal;
+      state.invoiceData.tax = action.payload.tax;
+      state.invoiceData.total = action.payload.total;
     },
-
-    setTotal: (state, action) => {
-      state.total = action.payload;
+    setCurrency: (state, action) => {
+      state.invoiceData.currency = action.payload;
     },
   },
 });
-export const { setSubtotal, setTax, setTotal } = invoiceSlice.actions;
-export const { setInvoiceData } = invoiceSlice.actions;
-export const selectInvoiceData = (state) => state.invoice.invoiceData;
-export const selectSubtotal = (state) => state.invoice.subtotal;
-export const selectTax = (state) => state.invoice.tax;
-export const selectTotal = (state) => state.invoice.total;
+
+export const { setInvoiceData, setRows, setTotals, setCurrency } = invoiceSlice.actions;
 
 export default invoiceSlice.reducer;

@@ -115,7 +115,7 @@ function Sidebar() {
                  isEcommerceDropdownOpen ? 'block' : 'hidden'
                 } py-2 space-y-2`}
               >
-                 <Link to="supply-invoice"><li>
+                 <Link to="supplier-invoice"><li>
                   <a
                     href="#"
                     className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -129,6 +129,14 @@ function Sidebar() {
                     className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                    Sales
+                  </a>
+                </li></Link> 
+                <Link to="pro-invoice"><li>
+                  <a
+                 
+                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                   Proforma invoice
                   </a>
                 </li></Link> 
                 <Link to="invoice-form"><li>
@@ -147,7 +155,22 @@ function Sidebar() {
                    Customers
                   </a>
                 </li></Link>
-                
+                <Link to="loading-depots"><li>
+                  <a
+                    href="#"
+                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                  Depots
+                  </a>
+                </li></Link>
+                <Link to="gatepass"><li>
+                  <a
+                    href="#"
+                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                 Gatepass
+                  </a>
+                </li></Link>
               </ul>
             </li>
             

@@ -109,6 +109,10 @@ const CustomerEnquiry = () => {
               <th scope="col" className="px-6 py-3">
                 Phone
               </th>
+              <th scope="col" className="px-6 py-3">
+                Category
+              </th>
+
             </tr>
           </thead>
           <tbody>
@@ -145,6 +149,7 @@ const CustomerEnquiry = () => {
                 </td>
                 <td className="px-6 py-4">{customer.email}</td>
                 <td className="px-6 py-4">{customer.phone}</td>
+                <td className="px-6 py-4">{customer.category}</td>
               </tr>
             ))}
           </tbody>

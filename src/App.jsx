@@ -6,9 +6,9 @@ import NavBar from './components/navigation/Navbar';
 import Home from './components/Home';
 import InventoryForm from './components/inventory/InventoryForm';
 import InventoryList from './components/inventory/InventoryList';
-import Sales from './components/Sales';
-import Login from './components/Login';
-import Register from './components/Register';
+
+import Login from './components/authentication/Login'
+import Register from './components/authentication/Register';
 import Dashboard from './components/Dashboard';
 import InvoiceForm from './components/invoice/InvoiceForm';
 import Customers from './components/Customers';
@@ -21,10 +21,14 @@ import LoadAuthority from './components/sales/LoadAuthority';
 import Settings from './components/Settings';
 import Invoices from './components/invoices/Invoices';
 import GatePass from './components/sales/GatePass';
-import SupplyInvoice from './supply/SupplyInvoice';
+import SupplierInvoice from './components/supply/SupplierInvoice';
 
 import Suppliers from './components/suppliers/Suppliers';
 import SalesInvoice from './components/sales/SalesInvoice';
+import Payment from './components/supply/Payment';
+import SupplyType from './components/supply/SupplyType'
+import ProInvoice from './components/ProInvoice';
+import Gatepass from './components/Gatepass';
 
 const App = () => {
   
@@ -37,7 +41,7 @@ const App = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="/inventory" element={<InventoryList />} />
           <Route path="/inventory/add" element={<InventoryForm />} />
-          <Route path="/sales" element={<Sales />} />
+         
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -54,10 +58,15 @@ const App = () => {
           <Route path="/generate-gate-pass" element={<GatePass />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/invoice-data" element={<Invoices/>} />
-          <Route path="/supply-invoice" element={<SupplyInvoice />} />
+          <Route path="/supplier-invoice" element={<SupplierInvoice />} />
           
           <Route path="/suppliers" element={<Suppliers />} />
           <Route path="/sales-invoice" element={<SalesInvoice />} />
+          <Route path="/payment" element={<Payment/>} />
+          <Route path="/supply-type" element={<SupplyType/>} />
+          <Route path="/pro-invoice" element={<ProInvoice />} />
+          <Route path="/gatepass" element={<Gatepass />} />
+
 
         </Routes>
       </Router>
