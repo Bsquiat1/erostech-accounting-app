@@ -9,7 +9,7 @@ import InventoryList from './components/inventory/InventoryList';
 
 import Login from './components/authentication/Login'
 import Register from './components/authentication/Register';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/dashboard/Dashboard';
 import InvoiceForm from './components/invoice/InvoiceForm';
 import Customers from './components/Customers';
 import Companies from './components/company/Companies';
@@ -29,6 +29,7 @@ import Payment from './components/supply/Payment';
 import SupplyType from './components/supply/SupplyType'
 import ProInvoice from './components/ProInvoice';
 import Gatepass from './components/Gatepass';
+import Depots from './components/Depots';
 
 const App = () => {
   
@@ -66,6 +67,7 @@ const App = () => {
           <Route path="/supply-type" element={<SupplyType/>} />
           <Route path="/pro-invoice" element={<ProInvoice />} />
           <Route path="/gatepass" element={<Gatepass />} />
+          <Route path="/depots" element={<Depots />} />
 
 
         </Routes>

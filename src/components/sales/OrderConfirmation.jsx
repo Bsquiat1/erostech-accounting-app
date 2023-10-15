@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectCustomerData } from '../../redux/customerSlice';
 import { Link } from 'react-router-dom';
 import OrderConfirmationModal from './OrderConfirmationModal';
+import axios from 'axios';
 
 const OrderConfirmation = () => {
 
@@ -15,9 +16,34 @@ const OrderConfirmation = () => {
   const invoiceData = useSelector((state) => state.invoice.invoiceData);
   const rows = useSelector((state) => state.invoice.rows);
 
+  
   const handleConfirmOrder = () => {
+    const orderData = {
+      customer_name: customerName,
+      customer_email: customerEmail,
+      customer_phone: customerPhone,
+      invoice_number: invoiceData.invoiceNumber,
+      date: invoiceData.date,
+      due_date: invoiceData.dueDate,
+      subtotal: invoiceData.subtotal,
+      tax: invoiceData.tax,
+      total: invoiceData.total
+    };
+    axios.post('/proforma_invoices', orderData)
+      .then(response => {
+       
+        console.log('Order confirmed and saved:', response.data);
+        console.log('Order data:', orderData);
+
+      })
+      .catch(error => {
+        
+        console.error('Error confirming order:', error);
+      });
+
     setIsModalOpen(true);
   };
+
 
   return (
     <div className="container mx-auto mt-24 px-4">

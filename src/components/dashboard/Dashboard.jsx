@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ApexCharts from 'react-apexcharts';
+import PieChart from './PieChart';
 
 const Dashboard = () => {
 
@@ -159,7 +160,12 @@ const Dashboard = () => {
           </a>
         </div>
       </div>
+      <div >
+      
+        <PieChart />
+      </div>
     </div>
+    
   );
 };
 

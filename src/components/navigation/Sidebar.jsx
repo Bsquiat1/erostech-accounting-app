@@ -147,15 +147,8 @@ function Sidebar() {
                    Invoice
                   </a>
                 </li></Link>
-                <Link to="customer-data"><li>
-                  <a
-                    href="#"
-                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >
-                   Customers
-                  </a>
-                </li></Link>
-                <Link to="loading-depots"><li>
+               
+                <Link to="depots"><li>
                   <a
                     href="#"
                     className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -229,6 +222,14 @@ function Sidebar() {
 <ul
   className={`${isUsersDropdownOpen ? 'block' : 'hidden'} py-2 space-y-2`}
 >
+   <Link to="suppliers"><li>
+    <a
+      
+      className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+    >
+      Suppliers List
+    </a>
+  </li></Link>
   <Link to="/company-data"><li>
     <a
       href="#"
@@ -237,6 +238,14 @@ function Sidebar() {
       Company List
     </a>
   </li></Link>
+  <Link to="customer-data"><li>
+                  <a
+                    href="#"
+                    className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                   Customers
+                  </a>
+                </li></Link>
  <Link to="invoice-data"><li>
     <a
       
@@ -246,14 +255,7 @@ function Sidebar() {
     </a>
   </li>
   </Link> 
-  <Link to="suppliers"><li>
-    <a
-      
-      className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-    >
-      Suppliers List
-    </a>
-  </li></Link>
+ 
   <li>
   <Link
     to="/settings" 

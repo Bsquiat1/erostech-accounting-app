@@ -13,6 +13,7 @@ export default defineConfig({
       '/member_details': 'http://localhost:3000',
       '/invoices': 'http://localhost:3000',
       '/loading_depots': 'http://localhost:3000',
+      '/proforma_invoices': 'http://localhost:3000',
       
       
 

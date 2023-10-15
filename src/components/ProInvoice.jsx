@@ -167,6 +167,19 @@ const ProInvoice = () => {
             />
           </div>
         </div>
+        <div>
+          <label htmlFor="location" className="block mb-1">
+            Location:
+          </label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            value={invoiceData.location}
+            onChange={handleInputChange}
+            className="w-max border rounded p-2"
+          />
+        </div>
 
         {customerName && (
           <div className="mb-4 flex justify-between">
