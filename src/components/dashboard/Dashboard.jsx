@@ -4,7 +4,7 @@ import PieChart from './PieChart';
 
 const Dashboard = () => {
 
-   // Define your chart data and options here
+  
    const [chartData, setChartData] = useState({
     options: {
       chart: {

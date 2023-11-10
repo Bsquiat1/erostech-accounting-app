@@ -5,7 +5,7 @@ const GeneralLedger = () => {
   const transactions = [
     { id: 1, date: '2023-08-01', description: 'Sale', amount: 1000 },
     { id: 2, date: '2023-08-02', description: 'Purchase', amount: -500 },
-    // ... more transactions
+   
   ];
 
   return (

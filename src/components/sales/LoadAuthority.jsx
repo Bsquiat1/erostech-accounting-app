@@ -1,113 +1,117 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setProductQuantity } from '../../redux/depotSlice';
+import { setInvoiceData, setCustomerName, setCustomerEmail, setCustomerPhone } from '../../redux/paymentInvoiceSlice';
 import { Link } from 'react-router-dom';
 
 const LoadAuthority = () => {
-  const [depots, setDepots] = useState([]);
-  const [selectedDepots, setSelectedDepots] = useState([]);
-  const [loadingAuthorityData, setLoadingAuthorityData] = useState({});
-  const [loading, setLoading] = useState(false);
+  const depots = useSelector((state) => state.depot.depots);
+  const invoiceData = useSelector((state) => state.invoice.invoiceData);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Fetch the list of depots from your backend API
-    axios.get('/loading_depots')
-      .then((response) => {
-        setDepots(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching depots:', error);
-      });
-  }, []);
+  const [selectedDepot, setSelectedDepot] = useState(null);
 
-  const handleDepotCheckboxChange = (depotId) => {
-    // Toggle selected depots based on checkbox selection
-    if (selectedDepots.includes(depotId)) {
-      setSelectedDepots(selectedDepots.filter((id) => id !== depotId));
-    } else {
-      setSelectedDepots([...selectedDepots, depotId]);
-    }
+  const handleDepotSelection = (depot) => {
+    setSelectedDepot(depot);
+
+  
+    dispatch(setInvoiceData({ ...invoiceData }));
   };
 
-  const handleLoadAuthority = () => {
-    setLoading(true);
-    setLoadingAuthorityData({}); // Clear previous data
-
-    // Send requests to fetch loading authority data for selected depots
-    Promise.all(selectedDepots.map((depotId) => (
-      axios.get(`/loading-authority/${depotId}`)
-    )))
-      .then((responses) => {
-        const authorityData = {};
-
-        responses.forEach((response, index) => {
-          const depotId = selectedDepots[index];
-          authorityData[depotId] = response.data;
-        });
-
-        setLoadingAuthorityData(authorityData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching loading authority data:', error);
-        setLoading(false);
-      });
+  const handleProductQuantityChange = (depotIndex, productType, quantity) => {
+    dispatch(setProductQuantity({ depotIndex, productType, quantity }));
+  };
+  const handleSendLoadAuthority = () => {
+    // Implement the logic for sending the load authority
+    // This can include making an API request or performing other actions
+    // based on the selected depot and invoice data.
+    // You can also display a success message or handle errors as needed.
   };
 
   return (
-    <div className="container mx-auto mt-32 px-4">
-      <h2 className="text-2xl font-bold mb-4">Send Load Authority</h2>
-      <div>
-        <h3 className="text-xl mb-2">Select Depots:</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {depots.map((depot) => (
-            <div key={depot.id} className="border p-4 rounded">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  value={depot.id}
-                  checked={selectedDepots.includes(depot.id)}
-                  onChange={() => handleDepotCheckboxChange(depot.id)}
-                  className="mr-2"
-                />
-                {depot.name}
-              </label>
-            </div>
-          ))}
-        </div>
+    <div className="p-4 ml-64">
+      <h1 className="text-3xl font-bold">Load Authority</h1>
+      <div className="mt-6">
+        <h2 className="text-2xl font-semibold">Selected Invoice: {invoiceData.invoiceNumber}</h2>
+        <p className='text-lg'>Name:{invoiceData.customerName}</p>
+        <p className='text-lg'>Email:{invoiceData.customerEmail}</p>
+        <p className='text-lg'>Phone:{invoiceData.customerPhone}</p>
+        <p className="text-lg">Date: {invoiceData.date.toString()}</p>
+
+        <p className="text-lg">Subtotal: {invoiceData.subtotal}</p>
+
+        <p className="text-lg">Total: {invoiceData.total}</p>
       </div>
-      <div className="mt-4">
-        <button
-          onClick={handleLoadAuthority}
-          disabled={loading}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          {loading ? 'Loading...' : 'Load Authority'}
-        </button>   
-      <div className="mt-4">
-      <Link to="/sales-invoice">
-        <button className="px-4 py-2 bg-green-500 text-white rounded">
-          Go to Invoice
-        </button>
-      </Link>
-    </div>
+      <p className="mt-4 text-lg">Select a depot for loading authority:</p>
+
+      <div className="mt-2 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {depots.map((depot, index) => (
+          <div
+            key={index}
+            className={`${
+              selectedDepot === depot
+                ? 'bg-blue-200 '
+                : 'bg-white'
+            } border border-gray-300 rounded-lg shadow-sm p-4 cursor-pointer transition-transform transform hover:scale-105`}
+            onClick={() => handleDepotSelection(depot)}
+          >
+            <h2 className="text-xl font-semibold">{depot.name}</h2>
+            <p className="text-lg">Location: {depot.location}</p>
+            <p className="text-lg">Contact: {depot.contact}</p>
+          </div>
+        ))}
       </div>
-      {!loading && Object.keys(loadingAuthorityData).length > 0 && (
+
+      {selectedDepot && (
         <div className="mt-6">
-          <h3 className="text-xl mb-2">Loading Authority Data:</h3>
-          <ul>
-            {Object.entries(loadingAuthorityData).map(([depotId, data]) => (
-              <li key={depotId} className="mb-4">
-                <h4 className="text-lg font-bold">Depot ID: {depotId}</h4>
-                <pre className="bg-gray-100 p-4 rounded">
-                  {JSON.stringify(data, null, 2)}
-                </pre>
-              </li>
-            ))}
-          </ul>
+          <h2 className="text-2xl font-semibold">Selected Depot: {selectedDepot.name}</h2>
+          <p className="text-lg">Location: {selectedDepot.location}</p>
+          <p className="text-lg">Contact: {selectedDepot.contact}</p>
+
+          <h3 className="mt-4 text-xl font-semibold">Products:</h3>
+<ul className="mt-2 space-y-4">
+  {Object.entries(selectedDepot.products).map(([productType, quantity]) => (
+    <li key={productType} className="flex items-center space-x-4">
+      <div className="flex-1">
+        <div className="text-lg font-semibold">{productType}</div>
+        <div className="text-gray-600">Available: {quantity} liters</div>
+      </div>
+      {/* <div className="flex items-center">
+        <input
+          type="number"
+          value={quantity}
+          onChange={(e) =>
+            handleProductQuantityChange(depots.indexOf(selectedDepot), productType, parseInt(e.target.value))
+          }
+          className="w-20 h-10 pl-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
+        />
+        <span className="text-lg ml-2">liters</span>
+      </div> */}
+      <div className="flex items-center">
+        <input
+          type="number"
+          value={0} // Set the initial value to 0 or any other appropriate default value
+          onChange={(e) =>
+            handleProductQuantityChange(depots.indexOf(selectedDepot), productType, parseInt(e.target.value))
+          }
+          className="w-20 h-10 pl-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
+        />
+        <span className="text-lg ml-2">liters</span>
+      </div>
+    </li>
+  ))}
+</ul>
+
+          <Link to="/sales-invoice">
+            <button
+              onClick={handleSendLoadAuthority}
+              className="bg-blue-500 text-white px-6 py-2 rounded mt-4"
+            >
+              Send Load Authority
+            </button>
+          </Link>
         </div>
-     
-      )}    
-      
+      )}
 
     </div>
   );

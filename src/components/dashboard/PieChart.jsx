@@ -8,7 +8,7 @@ const formatAsLiters = (value) => {
 };
 
 const PieChart = () => {
-  const [selectedDepot, setSelectedDepot] = useState('GAPCO');
+  const [selectedDepot, setSelectedDepot] = useState('VTTI');
 
   const depots = useSelector((state) => state.depot.depots);
 

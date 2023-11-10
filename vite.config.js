@@ -16,6 +16,7 @@ export default defineConfig({
       '/proforma_invoices': 'http://localhost:3000',
       
       
+      
 
     }
   }

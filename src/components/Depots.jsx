@@ -1,60 +1,131 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { adjustProductQuantity, setProductQuantity } from '../redux/depotSlice';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { adjustProductQuantity, setProductQuantity, adjustMainLineQuantity } from '../redux/depotSlice';
 
 const Depots = () => {
-  const dispatch = useDispatch();
   const depots = useSelector((state) => state.depot.depots);
+  const mainLine = useSelector((state) => state.depot.mainLine);
+  const dispatch = useDispatch();
 
-  const handleAdjust = (depotIndex, productType, amount) => {
-    dispatch(adjustProductQuantity({ depotIndex, productType, amount }));
+  const [selectedDepotIndex, setSelectedDepotIndex] = useState(0);
+  const [productType, setProductType] = useState('Diesel');
+  const [quantity, setQuantity] = useState(0);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const selectedDepot = depots[selectedDepotIndex];
+    if (selectedDepot && selectedDepot.products[productType] !== undefined) {
+      setQuantity(selectedDepot.products[productType]);
+    }
+  }, [selectedDepotIndex, productType, depots]);
+
+  const handleAdjustQuantity = (amount) => {
+    const currentQuantity = depots[selectedDepotIndex].products[productType];
+    
+    if (mainLine[productType] >= Math.abs(amount)) {
+      dispatch(adjustMainLineQuantity({ productType, amount }));
+      dispatch(adjustProductQuantity({ depotIndex: selectedDepotIndex, productType, amount }));
+      setError(null);
+    } else {
+      setError('Not enough fuel in the Main Line.');
+    }
   };
 
-  const handleSetQuantity = (depotIndex, productType, quantity) => {
-    dispatch(setProductQuantity({ depotIndex, productType, quantity }));
+  const handleSetQuantity = () => {
+    if (mainLine[productType] >= quantity) {
+      dispatch(adjustMainLineQuantity({ productType, amount: -quantity }));
+      dispatch(setProductQuantity({ depotIndex: selectedDepotIndex, productType, quantity }));
+      setError(null);
+    } else {
+      setError('Not enough fuel in the Main Line.');
+    }
   };
 
   return (
-    <div className="container mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-3xl mb-4 text-gray-800">Depot Details</h2>
-
-      {depots.map((depot, depotIndex) => (
-        <div key={depotIndex} className="border p-6 mb-6 bg-gray-100 rounded-lg">
-          <h3 className="text-xl mb-2 text-blue-700">{depot.name}</h3>
-          <p className="text-gray-700"><strong>Location:</strong> {depot.location}</p>
-          <p className="text-gray-700"><strong>Contact:</strong> {depot.contact}</p>
-
-          <div className="mt-4">
-            <h4 className="text-lg mb-2 text-black-700">Product Quantities (in Liters):</h4>
-            <ul>
-              {Object.entries(depot.products).map(([productType, quantity]) => (
-                <li key={productType} className="flex items-center justify-between mb-2">
-                  <span className="mr-2">{productType}:</span>
-                  <div className='flex'><button
-                    onClick={() => handleAdjust(depotIndex, productType, -500)}
-                    className="bg-red-500 text-white px-3 py-1 rounded mr-2"
-                  >
-                    -
-                  </button>
-                  <input
-                    type="number"
-                    value={quantity}
-                    min="0"
-                    onChange={(e) => handleSetQuantity(depotIndex, productType, parseInt(e.target.value, 10))}
-                    className="border rounded px-2 py-1 w-40 text-center"
-                  />
-                  <button
-                    onClick={() => handleAdjust(depotIndex, productType, 500)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded ml-2"
-                  >
-                    +
-                  </button></div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ))}
+    <div className="p-4 ml-64 mt-16">
+      <h2 className="text-2xl font-bold mb-4">Depots</h2>
+      <div className="mb-4">
+        <h3 className="text-lg">Main Line:</h3>
+        <pre className="p-4 border rounded-md bg-gray-100">
+          {JSON.stringify(mainLine, null, 2)}
+        </pre>
+      </div>
+      <div className="mb-4">
+        <h3 className="text-lg">Select Depot:</h3>
+        <select
+          value={selectedDepotIndex}
+          onChange={(e) => setSelectedDepotIndex(Number(e.target.value))}
+          className="border rounded p-2"
+        >
+          {depots.map((depot, index) => (
+            <option key={index} value={index}>
+              {depot.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-4">
+        <h3 className="text-lg">Product Type:</h3>
+        <select
+          value={productType}
+          onChange={(e) => setProductType(e.target.value)}
+          className="border rounded p-2"
+        >
+          {Object.keys(depots[selectedDepotIndex].products).map((product) => (
+            <option key={product} value={product}>
+              {product}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-4">
+        <h3 className="text-lg">Adjust Quantity:</h3>
+        <button
+          onClick={() => handleAdjustQuantity(-100)}
+          className="px-4 py-2 bg-red-500 text-white rounded-md"
+        >
+          Decrease
+        </button>
+        <button
+          onClick={() => handleAdjustQuantity(100)}
+          className="px-4 py-2 bg-blue-500 text-white rounded-md ml-4"
+        >
+          Increase
+        </button>
+      </div>
+      <div className="mb-4">
+        <h3 className="text-lg">Set Quantity:</h3>
+        <input
+          type="number"
+          value={quantity}
+          onChange={(e) => setQuantity(Number(e.target.value))}
+          className="w-24 px-3 py-2 border rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:outline-none"
+        />
+        <button
+          onClick={handleSetQuantity}
+          className="px-4 py-2 bg-green-500 text-white rounded-md ml-4"
+        >
+          Set
+        </button>
+      </div>
+      {error && (
+       <div className="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+       <svg className="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+       </svg>
+       <span className="sr-only">Info</span>
+       <div>
+         <span className="font-medium">Alert!</span> {error}
+       </div>
+     </div>
+     
+      )}
+      <div className="mb-4">
+        <h3 className="text-lg">Depot Information:</h3>
+        <pre className="p-4 border rounded-md bg-gray-100">
+          {JSON.stringify(depots[selectedDepotIndex], null, 2)}
+        </pre>
+      </div>
     </div>
   );
 };

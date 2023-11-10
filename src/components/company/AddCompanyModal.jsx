@@ -5,8 +5,8 @@ const AddCompanyModal = ({ isOpen, onClose, onSave }) => {
   const [newCompany, setNewCompany] = useState({
     name: '',
     email: '',
-    established_year: '', // Added for established year
-    address: '', // Added for address
+    established_year: '', 
+    address: '', 
   });
 
   const handleInputChange = (e) => {

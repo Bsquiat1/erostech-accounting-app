@@ -22,7 +22,7 @@ function Companies() {
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
-        setWarning('Error fetching data');
+        setWarning('User not authaurized');
       });
   }, []);
 

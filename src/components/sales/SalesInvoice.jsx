@@ -22,9 +22,9 @@ const SalesInvoice = () => {
       Due Date: ${formatDate(invoice.dueDate)}
       
       Billed To:
-      ${customer.name}
-      ${customer.email}
-      ${customer.phone}
+      ${invoice.customerName}
+      ${invoice.customerEmail}
+      ${invoice.customerPhone}
       
       Invoice Summary:
       Subtotal: ${invoice.subtotal} ${invoice.currency}
@@ -48,10 +48,10 @@ const SalesInvoice = () => {
         <div className="flex justify-between">
           <div>
             <h1 className="text-2xl font-extrabold tracking-widest text-indigo-500">
-              {customer.name}
+              {invoice.customerName}
             </h1>
-            <p className="text-base">{customer.email}</p>
-            <p className="text-base">{customer.phone}</p>
+            <p className="text-base">{invoice.customerEmail}</p>
+            <p className="text-base">{invoice.customerPhone}</p>
           </div>
           <div className="flex items-center gap-4">
             <button className="px-2 py-1 bg-gray-200 hover:bg-gray-400">
@@ -86,11 +86,11 @@ const SalesInvoice = () => {
             <address className="text-sm">
               <span className="font-bold">Billed To :</span>
               <br />
-              {customer.name}
+              {invoice.customerName}
               <br />
-              {customer.email}
+              {invoice.customerEmail}
               <br />
-              {customer.phone}
+              {invoice.customerPhone}
             </address>
           </div>
           <div className="w-40">

@@ -230,7 +230,7 @@ const proformaInvoice = () => {
           <tr>
             <th className="px-4 py-2">Description</th>
             <th className="px-4 py-2">Unit Price</th>
-            <th className="px-4 py-2">Quantity</th>
+            <th className="px-4 py-2">Quantity(in litres)</th>
             <th className="px-4 py-2">Total</th>
             <th className="px-4 py-2">Actions</th>
           </tr>
