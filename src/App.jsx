@@ -11,7 +11,7 @@ import Login from './components/authentication/Login'
 import Register from './components/authentication/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import InvoiceForm from './components/invoice/InvoiceForm';
-import Customers from './components/Customers';
+import Customers from './components/customer/Customers';
 import Companies from './components/company/Companies';
 import CustomerEnquiry from './components/sales/CustomerEnquiry';
 import ProformaInvoice from './components/sales/ProformaInvoice';

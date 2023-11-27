@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 const LoadAuthority = () => {
   const depots = useSelector((state) => state.depot.depots);
   const invoiceData = useSelector((state) => state.invoice.invoiceData);
+  const rows = useSelector((state) => state.invoice.rows)
   const dispatch = useDispatch();
 
   const [selectedDepot, setSelectedDepot] = useState(null);
@@ -50,24 +51,33 @@ const LoadAuthority = () => {
       setSelectedDepot(null);
     }
   };
-  
 
   return (
     <div className="p-4 ml-64">
       <h1 className="text-3xl font-bold">Load Authority</h1>
       <div className="mt-6">
         <h2 className="text-2xl font-semibold">Selected Invoice: {invoiceData.invoiceNumber}</h2>
-        <p className='text-lg'>Name:{invoiceData.customerName}</p>
-        <p className='text-lg'>Email:{invoiceData.customerEmail}</p>
-        <p className='text-lg'>Phone:{invoiceData.customerPhone}</p>
+        <p className='text-lg'>Name: {invoiceData.customerName}</p>
+        <p className='text-lg'>Email: {invoiceData.customerEmail}</p>
+        <p className='text-lg'>Phone: {invoiceData.customerPhone}</p>
         <p className="text-lg">Date: {invoiceData.date.toString()}</p>
+  
+        <div className="grid grid-cols-3 gap-4 mt-6">
+          {rows && rows.map((row, index) => (
+            <div key={index} className="border rounded-md p-4 bg-gray-100">
+              <p className="text-lg">Fuel: {row.description}</p>
+              <p className="text-lg">Price: {row.unitPrice}</p>
+              <p className="text-lg">Quantity: {row.quantity}</p>
+              <p className="text-lg">Total: {row.total}</p>
+            </div>
+          ))}
+        </div>
 
-        <p className="text-lg">Subtotal: {invoiceData.subtotal}</p>
-
+        <p className="text-lg mt-6">Subtotal: {invoiceData.subtotal}</p>
         <p className="text-lg">Total: {invoiceData.total}</p>
       </div>
-      <p className="mt-4 text-lg">Select a depot for loading authority:</p>
 
+      <p className="mt-4 text-lg">Select a depot for loading authority:</p>
       <div className="mt-2 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {depots.map((depot, index) => (
           <div
@@ -87,47 +97,47 @@ const LoadAuthority = () => {
       </div>
 
       {selectedDepot && (
-        <div className="mt-6">
+        <div className="mt-6 border rounded-md p-4 bg-gray-100">
           <h2 className="text-2xl font-semibold">Selected Depot: {selectedDepot.name}</h2>
           <p className="text-lg">Location: {selectedDepot.location}</p>
           <p className="text-lg">Contact: {selectedDepot.contact}</p>
 
           <h3 className="mt-4 text-xl font-semibold">Products:</h3>
-<ul className="mt-2 space-y-4">
-{Object.entries(selectedDepot.products).map(([productType, product]) => (
-  <li key={productType} className="flex items-center space-x-4">
-    <div className="flex-1">
-      <div className="text-lg font-semibold">{productType}</div>
-      <div className="text-gray-600">Available: {product} liters</div>
-    </div>
-    <div className="flex items-center">
-      <input
-        type="number"
-        value={product.selectedQuantity}
-        onChange={(e) => {
-          const newQuantity = parseInt(e.target.value);
-          handleProductQuantityChange(depots.indexOf(selectedDepot), productType, newQuantity);
-        }}
-        className="w-36 h-10 pl-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
-      />
-      <span className="text-lg ml-2">liters</span>
-    </div>
-  </li>
-))}
-</ul>
+          <ul className="mt-2 space-y-4">
+            {Object.entries(selectedDepot.products).map(([productType, product]) => (
+              <li key={productType} className="flex items-center space-x-4">
+                <div className="flex-1">
+                  <div className="text-lg font-semibold">{productType}</div>
+                  <div className="text-gray-600">Available: {product} liters</div>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="number"
+                    value={product.selectedQuantity}
+                    onChange={(e) => {
+                      const newQuantity = parseInt(e.target.value);
+                      handleProductQuantityChange(depots.indexOf(selectedDepot), productType, newQuantity);
+                    }}
+                    className="w-36 h-10 pl-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
+                  />
+                  <span className="text-lg ml-2">liters</span>
+                </div>
+              </li>
+            ))}
+          </ul>
 
           <Link to="/sales-invoice">
             <button
               onClick={handleSendLoadAuthority}
-              className="bg-blue-500 text-white px-6 py-2 rounded mt-4"
+              className="bg-blue-500 text-white px-6 py-2 rounded mt-4 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500"
             >
               Send Load Authority
             </button>
           </Link>
         </div>
       )}
-       {error && <p className="text-red-500">{error}</p>}
 
+      {error && <p className="text-red-500 mt-4">{error}</p>}
     </div>
   );
 };
