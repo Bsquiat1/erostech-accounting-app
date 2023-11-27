@@ -78,6 +78,23 @@ const depotSlice = createSlice({
       const currentQuantity = state.mainLine[productType];
       state.mainLine[productType] = currentQuantity + amount;
     },
+    deductSelectedQuantities: (state, action) => {
+      const { selectedDepot } = action.payload;
+      const updatedDepots = state.depots.map((depot) => {
+        if (depot.name === selectedDepot.name) {
+          const updatedProducts = { ...depot.products };
+          Object.entries(updatedProducts).forEach(([productType, product]) => {
+            if (product.selectedQuantity) {
+              updatedProducts[productType].quantity -= product.selectedQuantity;
+              updatedProducts[productType].selectedQuantity = 0;
+            }
+          });
+          return { ...depot, products: updatedProducts };
+        }
+        return depot;
+      });
+      return { ...state, depots: updatedDepots };
+    },
   },
 });
 
@@ -85,5 +102,6 @@ export const {
   adjustProductQuantity,
   setProductQuantity,
   adjustMainLineQuantity,
+  deductSelectedQuantities
 } = depotSlice.actions;
 export default depotSlice.reducer;

@@ -14,6 +14,11 @@ export default defineConfig({
       '/invoices': 'http://localhost:3000',
       '/loading_depots': 'http://localhost:3000',
       '/proforma_invoices': 'http://localhost:3000',
+      '/mainlines': 'http://localhost:3000',
+      '/proforma_invoice_rows': 'http://localhost:3000',
+      
+     
+
       
       
       

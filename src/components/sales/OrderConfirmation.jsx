@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import OrderConfirmationModal from './OrderConfirmationModal';
 import axios from 'axios';
 
+
 const OrderConfirmation = () => {
 
   const customerName = useSelector((state) => state.customer.name);
@@ -27,23 +28,41 @@ const OrderConfirmation = () => {
       due_date: invoiceData.dueDate,
       subtotal: invoiceData.subtotal,
       tax: invoiceData.tax,
-      total: invoiceData.total
+      total: invoiceData.total,
     };
+  
     axios.post('/proforma_invoices', orderData)
       .then(response => {
-       
         console.log('Order confirmed and saved:', response.data);
-        console.log('Order data:', orderData);
-
+        const orderId = response.data.id;
+  
+        const rowPromises = rows.map(row => {
+          const rowData = {
+            description: row.description,
+            unit_price: row.unitPrice,
+            quantity: row.quantity,
+            total: row.total,
+            proforma_invoice_id: orderId,
+          };
+  
+          return axios.post(`/proforma_invoice_rows`, rowData);
+        });
+  
+        return Promise.all(rowPromises);
+      })
+      .then(rowResponses => {
+        rowResponses.forEach(rowResponse => {
+          console.log('Row data saved:', rowResponse.data);
+        });
+        setIsModalOpen(true); // Open modal upon successful saving of row data
       })
       .catch(error => {
-        
         console.error('Error confirming order:', error);
+        // Handle errors, display user-friendly messages, or take appropriate actions
+        // For instance, set an error state to display an error message to the user
       });
-
-    setIsModalOpen(true);
   };
-
+  
 
   return (
     <div className="container mx-auto mt-24 px-4">

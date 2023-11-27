@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setProductQuantity } from '../../redux/depotSlice';
+import { setProductQuantity,deductSelectedQuantities } from '../../redux/depotSlice';
 import { setInvoiceData, setCustomerName, setCustomerEmail, setCustomerPhone } from '../../redux/paymentInvoiceSlice';
 import { Link } from 'react-router-dom';
 
@@ -10,23 +10,47 @@ const LoadAuthority = () => {
   const dispatch = useDispatch();
 
   const [selectedDepot, setSelectedDepot] = useState(null);
+  const [error, setError] = useState('');
 
   const handleDepotSelection = (depot) => {
     setSelectedDepot(depot);
+    setError('');
 
   
     dispatch(setInvoiceData({ ...invoiceData }));
   };
 
   const handleProductQuantityChange = (depotIndex, productType, quantity) => {
-    dispatch(setProductQuantity({ depotIndex, productType, quantity }));
+    const availableQuantity = depots[depotIndex].products[productType];
+    if (quantity <= availableQuantity) {
+      dispatch(setProductQuantity({ depotIndex, productType, quantity }));
+    } else {
+      setError('Input amount exceeds available quantity.');
+    }
   };
   const handleSendLoadAuthority = () => {
-    // Implement the logic for sending the load authority
-    // This can include making an API request or performing other actions
-    // based on the selected depot and invoice data.
-    // You can also display a success message or handle errors as needed.
+    if (selectedDepot) {
+      const updatedProducts = { ...selectedDepot.products };
+      Object.entries(updatedProducts).forEach(([productType, product]) => {
+        if (product.selectedQuantity) {
+          updatedProducts[productType].quantity -= product.selectedQuantity;
+          updatedProducts[productType].selectedQuantity = 0;
+        }
+      });
+  
+      const updatedDepots = [...depots];
+      updatedDepots[depots.indexOf(selectedDepot)].products = updatedProducts;
+  
+      // Here, you might dispatch an action to update the state with the deducted quantities
+      // dispatch(updateDepots(updatedDepots));
+      // or
+      dispatch(setProductQuantity({ depotIndex: depots.indexOf(selectedDepot), products: updatedProducts }));
+  
+      // You can also reset the selected depot or perform other necessary actions
+      setSelectedDepot(null);
+    }
   };
+  
 
   return (
     <div className="p-4 ml-64">
@@ -70,36 +94,26 @@ const LoadAuthority = () => {
 
           <h3 className="mt-4 text-xl font-semibold">Products:</h3>
 <ul className="mt-2 space-y-4">
-  {Object.entries(selectedDepot.products).map(([productType, quantity]) => (
-    <li key={productType} className="flex items-center space-x-4">
-      <div className="flex-1">
-        <div className="text-lg font-semibold">{productType}</div>
-        <div className="text-gray-600">Available: {quantity} liters</div>
-      </div>
-      {/* <div className="flex items-center">
-        <input
-          type="number"
-          value={quantity}
-          onChange={(e) =>
-            handleProductQuantityChange(depots.indexOf(selectedDepot), productType, parseInt(e.target.value))
-          }
-          className="w-20 h-10 pl-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
-        />
-        <span className="text-lg ml-2">liters</span>
-      </div> */}
-      <div className="flex items-center">
-        <input
-          type="number"
-          value={0} // Set the initial value to 0 or any other appropriate default value
-          onChange={(e) =>
-            handleProductQuantityChange(depots.indexOf(selectedDepot), productType, parseInt(e.target.value))
-          }
-          className="w-20 h-10 pl-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
-        />
-        <span className="text-lg ml-2">liters</span>
-      </div>
-    </li>
-  ))}
+{Object.entries(selectedDepot.products).map(([productType, product]) => (
+  <li key={productType} className="flex items-center space-x-4">
+    <div className="flex-1">
+      <div className="text-lg font-semibold">{productType}</div>
+      <div className="text-gray-600">Available: {product} liters</div>
+    </div>
+    <div className="flex items-center">
+      <input
+        type="number"
+        value={product.selectedQuantity}
+        onChange={(e) => {
+          const newQuantity = parseInt(e.target.value);
+          handleProductQuantityChange(depots.indexOf(selectedDepot), productType, newQuantity);
+        }}
+        className="w-36 h-10 pl-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
+      />
+      <span className="text-lg ml-2">liters</span>
+    </div>
+  </li>
+))}
 </ul>
 
           <Link to="/sales-invoice">
@@ -112,6 +126,7 @@ const LoadAuthority = () => {
           </Link>
         </div>
       )}
+       {error && <p className="text-red-500">{error}</p>}
 
     </div>
   );

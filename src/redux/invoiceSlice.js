@@ -13,6 +13,7 @@ const initialState = {
     tax: 0,
     total: 0,
     currency: 'KSH',
+ 
   },
   rows: [
     { description: '', unitPrice: '', quantity: '', total: '' },
@@ -29,6 +30,7 @@ const invoiceSlice = createSlice({
     setRows: (state, action) => {
       state.rows = action.payload;
     },
+  
     setTotals: (state, action) => {
       state.invoiceData.subtotal = action.payload.subtotal;
       state.invoiceData.tax = action.payload.tax;
@@ -40,6 +42,6 @@ const invoiceSlice = createSlice({
   },
 });
 
-export const { setInvoiceData, setRows, setTotals, setCurrency } = invoiceSlice.actions;
+export const { setInvoiceData, setRows, setTotals, setCurrency} = invoiceSlice.actions;
 
 export default invoiceSlice.reducer;
