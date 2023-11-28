@@ -1,5 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { useRef } from 'react';
+
 
 const SalesInvoice = () => {
   const customer = useSelector((state) => state.customer);
@@ -11,38 +16,40 @@ const SalesInvoice = () => {
     return date.toLocaleDateString();
   };
 
+
+  const componentRef = useRef();
+
   const handleSaveButtonClick = () => {
-    // Create a jsPDF instance
-    const pdf = new jsPDF();
-
-    // Generate the content for the PDF
-    const content = `
-      Invoice Number: ${invoice.invoiceNumber}
-      Date: ${formatDate(invoice.date)}
-      Due Date: ${formatDate(invoice.dueDate)}
-      
-      Billed To:
-      ${invoice.customerName}
-      ${invoice.customerEmail}
-      ${invoice.customerPhone}
-      
-      Invoice Summary:
-      Subtotal: ${invoice.subtotal} ${invoice.currency}
-      Tax: ${invoice.tax} ${invoice.currency}
-      Total: ${invoice.total} ${invoice.currency}
-    `;
-
-    // Set font size and add the content to the PDF
-    pdf.setFontSize(12);
-    pdf.text(content, 10, 10);
-
-    // Save the PDF
-    pdf.save('invoice.pdf');
+    const input = componentRef.current;
+  
+    // Hide buttons before capturing the content
+    const buttonsToHide = input.querySelectorAll('button');
+    buttonsToHide.forEach((button) => {
+      button.style.display = 'none';
+    });
+  
+    const scale = 2; // Adjust the scale factor as needed
+    const pdf = new jsPDF('portrait', 'mm', 'a4'); // Set A4 size
+  
+    html2canvas(input, { scale: scale }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+  
+      const width = pdf.internal.pageSize.getWidth();
+      const height = pdf.internal.pageSize.getHeight();
+  
+      pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+      pdf.save('sales_invoice.pdf');
+  
+      // Show buttons again after generating the PDF
+      buttonsToHide.forEach((button) => {
+        button.style.display = 'block';
+      });
+    });
   };
-
+  
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div ref={componentRef} className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
     <div className="w-8/12 bg-white shadow-lg p-6">
       
         <div className="flex justify-between">
@@ -152,7 +159,7 @@ const SalesInvoice = () => {
           >
             Save as PDF
           </button>
-            <button className="px-4 py-2 text-sm text-red-600 bg-red-100">Cancel</button>
+            <Link to="/load-authority"><button className="px-4 py-2 text-sm text-red-600 bg-red-100">Cancel</button></Link>
           </div>
         </div>
       </div>

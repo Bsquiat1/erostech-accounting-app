@@ -73,8 +73,8 @@ const LoadAuthority = () => {
           ))}
         </div>
 
-        <p className="text-lg mt-6">Subtotal: {invoiceData.subtotal}</p>
-        <p className="text-lg">Total: {invoiceData.total}</p>
+        <p className="text-lg mt-6">Subtotal: {invoiceData.subtotal} {invoiceData.currency}</p>
+        <p className="text-lg">Total: {invoiceData.total} {invoiceData.currency}</p>
       </div>
 
       <p className="mt-4 text-lg">Select a depot for loading authority:</p>
