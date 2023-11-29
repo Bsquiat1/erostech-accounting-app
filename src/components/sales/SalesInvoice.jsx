@@ -28,19 +28,23 @@ const SalesInvoice = () => {
       button.style.display = 'none';
     });
   
-    const scale = 2; // Adjust the scale factor as needed
-    const pdf = new jsPDF('portrait', 'mm', 'a4'); // Set A4 size
+    const scale = 1.5; 
+    const pdf = new jsPDF('portrait', 'mm', 'a4'); 
   
     html2canvas(input, { scale: scale }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
   
+     
       const width = pdf.internal.pageSize.getWidth();
       const height = pdf.internal.pageSize.getHeight();
+      const aspectRatio = canvas.width / canvas.height;
+      const imgWidth = width * 3; 
+      const imgHeight = imgWidth / aspectRatio;
   
-      pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+      pdf.addImage(imgData, 'PNG', (width - imgWidth) / 2, (height - imgHeight) / 2, imgWidth, imgHeight);
       pdf.save('sales_invoice.pdf');
   
-      // Show buttons again after generating the PDF
+   
       buttonsToHide.forEach((button) => {
         button.style.display = 'block';
       });
@@ -49,10 +53,12 @@ const SalesInvoice = () => {
   
 
   return (
-    <div ref={componentRef} className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-    <div className="w-8/12 bg-white shadow-lg p-6">
+    <div 
+    ref={componentRef} 
+    className=" flex items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="sales-invoice w-8/12 bg-white shadow-lg p-6">
       
-        <div className="flex justify-between">
+        <div className=" flex justify-between">
           <div>
             <h1 className="text-2xl font-extrabold tracking-widest text-indigo-500">
               {invoice.customerName}
