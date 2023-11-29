@@ -62,26 +62,20 @@ const proformaInvoice = () => {
   const handleTableRowChange = (index, fieldName, value) => {
     const updatedRows = rows.map((row, i) => {
       if (i === index) {
-        return {
+        const updatedRow = {
           ...row,
           [fieldName]: value,
-          total: (fieldName === 'unitPrice' || fieldName === 'quantity')
-            ? (parseFloat(value || 0) * parseFloat(row['quantity'] || 0)).toFixed(2)
-            : row.total
         };
+  
+        if (fieldName === 'unitPrice' || fieldName === 'quantity') {
+          const unitPrice = parseFloat(updatedRow.unitPrice || 0);
+          const quantity = parseFloat(updatedRow.quantity || 0);
+          updatedRow.total = (unitPrice * quantity).toFixed(2);
+        }
+        return updatedRow;
       }
       return row;
     });
-
-    let totalValue = parseFloat(value || 0);
-    if (invoiceData.currency === 'USD') {
-      totalValue *= parseFloat(rows['quantity'] || 0);
-    } else {
-
-      totalValue *= parseFloat(rows['quantity'] || 0);
-     
-    }
-  
   
     dispatch(setRows(updatedRows));
   };
