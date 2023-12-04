@@ -25,13 +25,15 @@ const [selectedInvoiceId, setSelectedInvoiceId] = useState(null);
 const dispatch = useDispatch()
 
 
-  useEffect(() => {
-
-    axios
-      .get('/proforma_invoices')
-      .then((response) => setInvoices(response.data))
-      .catch((error) => console.error(error));
-  }, []);
+useEffect(() => {
+  axios
+    .get('/proforma_invoices')
+    .then((response) => {
+      setInvoices(response.data);
+      console.log(response.data); 
+    })
+    .catch((error) => console.error(error));
+}, []);
 
   const openModal = (invoiceId) => {
     setSelectedInvoiceId(invoiceId);
@@ -86,14 +88,24 @@ const handleInvoiceClick = (invoice) => {
     customerName: invoice.customer_name, 
     customerPhone: invoice.customer_phone, 
     customerEmail: invoice.customer_email,
+
   
 
   }));
 
+  const formattedRows = invoice.proforma_invoice_rows.map((row) => ({
+    description: row.description,
+    unitPrice: row.unit_price,
+    quantity: row.quantity,
+    total: row.total,
+  }));
+
+  dispatch(setRows(formattedRows)); // Dispatch formatted rows
+
+
   setSelectedInvoiceId(invoice.id);
 
 
-  // Other dispatch calls may be required based on your needs
 };
 
   return (
