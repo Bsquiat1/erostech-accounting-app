@@ -53,32 +53,56 @@ const LoadAuthority = () => {
   };
 
   return (
-    <div className="p-4 ml-64">
+    <div className="p-4 ml-64 mt-16">
       <h1 className="text-3xl font-bold">Load Authority</h1>
-      <div className="mt-6">
-        <h2 className="text-2xl font-semibold">Selected Invoice: {invoiceData.invoiceNumber}</h2>
-        <p className='text-lg'>Name: {invoiceData.customerName}</p>
-        <p className='text-lg'>Email: {invoiceData.customerEmail}</p>
-        <p className='text-lg'>Phone: {invoiceData.customerPhone}</p>
-        <p className="text-lg">Date: {invoiceData.date.toString()}</p>
-  
-        <div className="grid grid-cols-3 gap-4 mt-6">
-          {rows && rows.map((row, index) => (
-            <div key={index} className="border rounded-md p-4 bg-gray-100">
-              <p className="text-lg">Fuel: {row.description}</p>
-              <p className="text-lg">Price: {row.unitPrice}</p>
-              <p className="text-lg">Quantity: {row.quantity}</p>
-              <p className="text-lg">Total: {row.total}</p>
-            </div>
-          ))}
-        </div>
+      <div className="border border-gray-300 rounded-md p-4 bg-white shadow mt-6">
+  <h2 className="text-2xl font-semibold mb-4">Selected Invoice: {invoiceData.invoiceNumber}</h2>
+  <p className='text-lg mb-2'>Name: {invoiceData.customerName}</p>
+  <p className='text-lg mb-2'>Email: {invoiceData.customerEmail}</p>
+  <p className='text-lg mb-2'>Phone: {invoiceData.customerPhone}</p>
+  <p className="text-lg">Date: {new Date(invoiceData.date).toLocaleDateString()}</p>
 
-        <p className="text-lg mt-6">Subtotal: {invoiceData.subtotal} {invoiceData.currency}</p>
-        <p className="text-lg">Total: {invoiceData.total} {invoiceData.currency}</p>
+
+        <div className="grid grid-cols-3 gap-4 mt-6"> 
+       
+  {rows &&
+    rows.map((row, index) => (
+      <div
+        key={index}
+        className="border rounded-md overflow-hidden bg-white "
+      >
+      
+        <div className="p-4">
+          <div className="flex flex-col gap-1">
+            <div className="flex justify-between items-center mb-2">
+              <p className="text-lg font-semibold">Fuel:</p>
+              <p className="text-lg text-gray-800">{row.description}</p>
+            </div>
+            <div className="flex justify-between items-center">
+              <p className="text-gray-700">Price:</p>
+              <p className="text-gray-700">{row.unitPrice}</p>
+            </div>
+            <div className="flex justify-between items-center">
+              <p className="text-gray-700">Quantity:</p>
+              <p className="text-gray-700">{row.quantity} litres</p>
+            </div>
+            <div className="flex justify-between items-center">
+              <p className="text-lg font-semibold text-gray-800">Total:</p>
+              <p className="text-lg font-semibold text-gray-800">{row.total}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+</div>
+
+
+        <p className="text-lg font-semibold text-gray-800 mt-4">Subtotal: {invoiceData.subtotal} {invoiceData.currency}</p>
+        <p className="text-lg font-semibold text-gray-800 mt-2">Total: {invoiceData.total} {invoiceData.currency}</p>
       </div>
 
       <p className="mt-4 text-lg">Select a depot for loading authority:</p>
-      <div className="mt-2 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-2 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {depots.map((depot, index) => (
           <div
             key={index}
@@ -99,8 +123,7 @@ const LoadAuthority = () => {
       {selectedDepot && (
         <div className="mt-6 border rounded-md p-4 bg-gray-100">
           <h2 className="text-2xl font-semibold">Selected Depot: {selectedDepot.name}</h2>
-          <p className="text-lg">Location: {selectedDepot.location}</p>
-          <p className="text-lg">Contact: {selectedDepot.contact}</p>
+        
 
           <h3 className="mt-4 text-xl font-semibold">Products:</h3>
           <ul className="mt-2 space-y-4">

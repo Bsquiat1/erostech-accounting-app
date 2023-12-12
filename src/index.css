@@ -3,24 +3,27 @@
 @tailwind utilities;
 
 
-/* Add these styles to your existing CSS file or component */
+
 .sales-invoice {
-    width: 210mm; /* A4 width */
-    height: 297mm; /* A4 height */
+    width: 210mm;
+    height: 297mm;
     padding: 20mm; 
-    margin: 0 auto; /* Center content horizontally */
-    background-color: #fff; /* White background color */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow for the A4 paper */
+    margin: 0 auto; 
+    background-color: #fff; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
   }
   
   .invoice-content {
-    /* Add styles for the content inside the A4 paper here */
-    /* Example styles below */
+    
     font-family: Arial, sans-serif;
    
   }
+
   
-  /* Additional styling for buttons, tables, etc. goes here */
+
+  
+  
+ 
   
 
 

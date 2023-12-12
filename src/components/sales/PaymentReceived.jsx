@@ -100,7 +100,7 @@ const handleInvoiceClick = (invoice) => {
     total: row.total,
   }));
 
-  dispatch(setRows(formattedRows)); // Dispatch formatted rows
+  dispatch(setRows(formattedRows)); 
 
 
   setSelectedInvoiceId(invoice.id);

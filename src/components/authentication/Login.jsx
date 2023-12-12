@@ -5,27 +5,34 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-     
-      const response = await axios.post('/users/sign_up', {
-        email,
-        password,
+      const response = await axios.post('/users/sign_in', {
+        user: {
+          email: email,
+          password: password,
+        },
       });
 
-      
-      console.log('Login successful. Response:', response.data);
+      // const { token } = response.data; // Assuming the token is returned in the response
 
-     
+      // // Store token in localStorage
+      // localStorage.setItem('accessToken', token);
+
+
+      console.log('Login successful!', response.data);
+      // localStorage.setItem('token', response.data.token)
+      setWarning('User not authaurized');
+
       navigate('/dashboard');
     } catch (error) {
-      console.error('Login error:', error);
-      setErrorMessage('Login failed. Please check your email and password.');
+      console.error('Login error:', error.response.data);
+      setError('Login failed. Please check your email and password.');
     }
   };
 
@@ -33,11 +40,7 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="p-6 max-w-md w-full bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-semibold mb-4">Login</h2>
-        {errorMessage && (
-          <div className="mb-4 text-red-500">
-            Error: {errorMessage}
-          </div>
-        )}
+        {error && <div className="mb-4 text-red-500">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block font-medium mb-1">

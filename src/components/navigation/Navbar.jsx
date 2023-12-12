@@ -15,6 +15,7 @@ function Navbar() {
   const navigate = useNavigate();
   const user = useSelector(state => state.user);  
   const dispatch = useDispatch();
+  const [signOutMessage, setSignOutMessage] = useState(null);
 
  
 
@@ -37,31 +38,57 @@ function Navbar() {
   }, [dispatch]);
 
 
-  const handleSignout = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-  
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-  
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-  
-      await axios.delete('/users/sign_out', { headers });
-  
-      localStorage.removeItem('accessToken');
-  
-      navigate('/login');
-  
-      setUser(null);
-    } catch (error) {
-      console.error('Sign-out error:', error);
+  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1OTVlZDMzMC05MTIzLTQ1MzItODk2Yi0xZjNlNmQwYzEwMDAiLCJzdWIiOiIzOCIsInNjcCI6InVzZXIiLCJhdWQiOm51bGwsImlhdCI6MTcwMjMxMTE1NywiZXhwIjoxNzAyMzE4MzU3fQ.G10EyAteluOuf6gCd6FxaXo-AdbPHG-PplLYxykFjqE'; 
+localStorage.setItem('accessToken', accessToken);
+
+// const accessToken = localStorage.getItem('accessToken');
+
+// Define the handleSignOut function using the accessToken variable
+const handleSignout = async () => {
+  try {
+    if (!accessToken) {
+      console.error('Access token not found.');
+      return; // Exit function if accessToken is not available
     }
-  };
-  
+
+    // Make a DELETE request to the sign-out endpoint on your server
+    const response = await fetch('/users/sign_out', {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+        // Add other headers if necessary
+      }
+    });
+
+    if (response.ok) {
+      // Clear the access token from localStorage on successful sign-out
+      localStorage.removeItem('accessToken');
+      return { success: true, message: 'Sign-out successful.' };
+    } else {
+      throw new Error('Sign-out failed.');
+    }
+
+  } catch (error) {
+    return { success: false, message: 'Sign-out failed. Please try again.' };
+  }
+};
+
+
+const handleSignOutClick = async () => {
+  const signOutResult = await handleSignout();
+
+  if (signOutResult.success) {
+    setSignOutMessage({ type: 'success', text: signOutResult.message });
+  } else {
+    setSignOutMessage({ type: 'error', text: signOutResult.message });
+  }
+
+  // Optionally, you can clear the message after a certain duration
+  setTimeout(() => {
+    setSignOutMessage(null);
+  }, 5000); // Clear message after 5 seconds
+};
   
   
   
@@ -163,11 +190,16 @@ function Navbar() {
                       <li>
                         
           <button
-            onClick={handleSignout}
+            onClick={handleSignOutClick}
             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             Sign Out
           </button>
+          {signOutMessage && (
+        <div className={signOutMessage.type === 'success' ? 'text-green-500 px-4 py-2 text-sm ' : 'text-red-500 px-4 py-2 text-sm '}>
+          {signOutMessage.text}
+        </div>
+      )}
         
        
             </li>

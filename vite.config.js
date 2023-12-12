@@ -16,6 +16,7 @@ export default defineConfig({
       '/proforma_invoices': 'http://localhost:3000',
       '/mainlines': 'http://localhost:3000',
       '/proforma_invoice_rows': 'http://localhost:3000',
+      '/gatepasses': 'http://localhost:3000',
       
      
 

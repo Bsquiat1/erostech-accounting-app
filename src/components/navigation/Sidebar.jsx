@@ -21,7 +21,7 @@ function Sidebar() {
 
 
   return (
-    <div className="sidebar-container">
+    <div className={`sidebar-container ${isSidebarOpen ? 'sidebar-open' : ''}`}>
      
       <button
         data-drawer-target="sidebar-multi-level-sidebar"
@@ -115,14 +115,14 @@ function Sidebar() {
                  isEcommerceDropdownOpen ? 'block' : 'hidden'
                 } py-2 space-y-2`}
               >
-                 <Link to="supplier-invoice"><li>
+                 {/* <Link to="supplier-invoice"><li>
                   <a
                     href="#"
                     className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     Suppliers
                   </a>
-                </li></Link>
+                </li></Link> */}
                <Link to="/customer-enquiry"><li>
                   <a
                  
@@ -230,14 +230,14 @@ function Sidebar() {
 <ul
   className={`${isUsersDropdownOpen ? 'block' : 'hidden'} py-2 space-y-2`}
 >
-   <Link to="suppliers"><li>
+   {/* <Link to="suppliers"><li>
     <a
       
       className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
     >
       Suppliers List
     </a>
-  </li></Link>
+  </li></Link> */}
   <Link to="/company-data"><li>
     <a
       href="#"

@@ -158,14 +158,19 @@ const SalesInvoice = () => {
             Thank you very much for doing business with us.
           </div>
           <div className="flex items-end justify-end space-x-3">
-            <button className="px-4 py-2 text-sm text-green-600 bg-green-100">Print</button>
+            <button className="px-4 py-2 text-sm text-green-600 bg-green-100 hover:bg-green-300">Print</button>
             <button
             onClick={handleSaveButtonClick}
             className="px-2 py-1 bg-gray-200 hover:bg-gray-400"
           >
             Save as PDF
           </button>
-            <Link to="/load-authority"><button className="px-4 py-2 text-sm text-red-600 bg-red-100">Cancel</button></Link>
+            <Link to="/load-authority"><button className="px-4 py-2 text-sm text-red-600 bg-red-100 hover:bg-red-300">Cancel</button></Link>
+            <Link to="/gatepass">
+            <button className="px-4 py-2 text-sm text-blue-600 bg-blue-100 hover:bg-blue-300">
+              Next: Gatepass
+            </button>
+          </Link>
           </div>
         </div>
       </div>
