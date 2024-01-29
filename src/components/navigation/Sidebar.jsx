@@ -254,12 +254,22 @@ function Sidebar() {
                    Customers
                   </a>
                 </li></Link>
- <Link to="invoice-data"><li>
+ <Link to="/invoice-data"><li>
     <a
       
       className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
     >
       Invoices
+    </a>
+  </li>
+  </Link> 
+
+  <Link to="/entry-data"><li>
+    <a
+      
+      className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+    >
+      Entries
     </a>
   </li>
   </Link> 

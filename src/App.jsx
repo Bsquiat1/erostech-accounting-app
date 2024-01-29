@@ -30,6 +30,7 @@ import SupplyType from './components/supply/SupplyType'
 import ProInvoice from './components/ProInvoice';
 import Gatepass from './components/Gatepass';
 import Depots from './components/Depots';
+import Entries from './components/entries/Entries';
 
 const App = () => {
   
@@ -68,6 +69,7 @@ const App = () => {
           <Route path="/pro-invoice" element={<ProInvoice />} />
           <Route path="/gatepass" element={<Gatepass />} />
           <Route path="/depots" element={<Depots />} />
+          <Route path="/entry-data" element={<Entries />} />
 
 
         </Routes>
