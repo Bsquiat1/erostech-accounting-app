@@ -13,6 +13,7 @@ import {
 } from '../../redux/paymentInvoiceSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Navbar from '../navigation/Navbar';
 
 const PaymentReceived= () => {
   const [invoices, setInvoices] = useState([]);
@@ -109,6 +110,8 @@ const handleInvoiceClick = (invoice) => {
 };
 
   return (
+    <>
+    <Navbar />
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-14 ml-64">
       <div className="pb-4 bg-white dark:bg-gray-900">
         <label htmlFor="table-search" className="sr-only">
@@ -255,6 +258,8 @@ const handleInvoiceClick = (invoice) => {
       </Link>
 
     </div>
+    </>
+    
   );
 };
 

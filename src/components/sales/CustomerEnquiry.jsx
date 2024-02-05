@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setCustomerData } from '../../redux/customerSlice';
+import Navbar from '../navigation/Navbar';
 
 const CustomerEnquiry = () => {
   const [customers, setCustomers] = useState([]);
@@ -55,6 +56,9 @@ const CustomerEnquiry = () => {
   };
 
   return (
+    <>
+    <Navbar />
+
     <div className="container mx-auto mt-28 ml-64">
       <h2 className="text-3xl mb-4">Customer Enquiry</h2>
       <div className="relative mt-1 mb-4">
@@ -149,6 +153,8 @@ const CustomerEnquiry = () => {
         </button>
       </Link>
     </div>
+    </>
+    
   );
 };
 

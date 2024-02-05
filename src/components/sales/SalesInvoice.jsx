@@ -55,7 +55,7 @@ const SalesInvoice = () => {
   return (
     <div 
     ref={componentRef} 
-    className=" flex items-center justify-center min-h-screen bg-gray-100 p-4">
+    className="relative overflow-x-auto shadow-md sm:rounded-lg mt-14 ml-64">
     <div className="sales-invoice w-8/12 bg-white shadow-lg p-6">
       
         <div className=" flex justify-between">

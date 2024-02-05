@@ -1,9 +1,12 @@
 import React from 'react';
+import Cookies from 'js-cookie'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 import NavBar from './components/navigation/Navbar';
-import Home from './components/Home';
+
 import InventoryForm from './components/inventory/InventoryForm';
 import InventoryList from './components/inventory/InventoryList';
 
@@ -32,21 +35,58 @@ import Gatepass from './components/Gatepass';
 import Depots from './components/Depots';
 import Entries from './components/entries/Entries';
 
+import FuelMovement from './components/secondary-pages/fuel-movement';
+import SetBalance from './components/secondary-pages/setBalance';
+import Users from './components/users/users';
+import Password from './components/authentication/password';
+import Messages from './components/messaging/messages';
+
+
 const App = () => {
+
+  const PrivateRoute = ({ element, path }) => {
+    const isAuthenticated = Cookies.get('token') !== undefined; // Check if the token cookie exists
+  
+    return isAuthenticated ? element : <Navigate to="/" />; // Redirect to login if not authenticated
+  };
   
 
   return (
    
       <Router>
-        <NavBar />
+        
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/inventory" element={<InventoryList />} />
+          <Route path="/dashboard" element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <Dashboard />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+
+          <Route path="/inventory"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <InventoryList />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+          
           <Route path="/inventory/add" element={<InventoryForm />} />
          
-          <Route path="/login" element={<Login />} />
+          <Route path="/reset/:token" element={<Password />} />
+
+          <Route path="" element={<Login />} />
           <Route path="/signup" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/invoice-form" element={<InvoiceForm />} />
           <Route path="/customer-data" element={<Customers />} />
           <Route path="/company-data" element={<Companies />} />
@@ -59,6 +99,20 @@ const App = () => {
           <Route path="/generate-invoice" element={<Invoices />} />
           <Route path="/generate-gate-pass" element={<GatePass />} />
           <Route path="/settings" element={<Settings />} />
+
+          <Route path="/users"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <Users />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+
           <Route path="/invoice-data" element={<Invoices/>} />
           <Route path="/supplier-invoice" element={<SupplierInvoice />} />
           
@@ -67,9 +121,74 @@ const App = () => {
           <Route path="/payment" element={<Payment/>} />
           <Route path="/supply-type" element={<SupplyType/>} />
           <Route path="/pro-invoice" element={<ProInvoice />} />
-          <Route path="/gatepass" element={<Gatepass />} />
-          <Route path="/depots" element={<Depots />} />
           <Route path="/entry-data" element={<Entries />} />
+
+          <Route path="/messages"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <Messages />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+
+          <Route path="/gatepass"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <Gatepass />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+
+          <Route path="/depots"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <Depots />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+
+          {/* secondary pages */}
+
+          <Route path="/fuel-balance"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <SetBalance />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+
+          <Route path="/fuel-movement"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <FuelMovement />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
 
 
         </Routes>

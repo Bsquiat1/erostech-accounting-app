@@ -4,6 +4,7 @@ import { selectCustomerData } from '../../redux/customerSlice';
 import { Link } from 'react-router-dom';
 import OrderConfirmationModal from './OrderConfirmationModal';
 import axios from 'axios';
+import Navbar from '../navigation/Navbar';
 
 
 const OrderConfirmation = () => {
@@ -65,6 +66,8 @@ const OrderConfirmation = () => {
   
 
   return (
+    <>
+    <Navbar />
     <div className="container mx-auto mt-24 px-4">
       <h2 className="text-3xl mb-4">Order Confirmation</h2>
 
@@ -144,6 +147,7 @@ const OrderConfirmation = () => {
         />
       )}
     </div>
+    </>
   );
 };
 

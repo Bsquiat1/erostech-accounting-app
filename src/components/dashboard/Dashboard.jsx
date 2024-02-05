@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie'; 
 import ApexCharts from 'react-apexcharts';
 import PieChart from './PieChart';
+import Navbar from '../navigation/Navbar';
 
 const Dashboard = () => {
 
+  console.log('cookies is' +Cookies.get('token'))
   
    const [chartData, setChartData] = useState({
     options: {
@@ -96,6 +99,8 @@ const Dashboard = () => {
   });
 
   return (
+    <>
+    <Navbar />
     <div className="max-w-none  bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6 mt-20 ml-64 ">
       <div className="flex justify-between">
         <div>
@@ -165,6 +170,8 @@ const Dashboard = () => {
         <PieChart />
       </div>
     </div>
+    </>
+    
     
   );
 };

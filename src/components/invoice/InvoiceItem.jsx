@@ -17,7 +17,7 @@ const InvoiceItem = ({ id, name, qty, price, onDeleteItem, onEditItem }) => {
             name: 'name',
             id: id,
             value: name,
-            className: 'w-full px-2 py-1 border rounded-md shadow-sm focus:ring focus:ring-blue-200',
+            className: 'w-full px-2 py-1 pl-10 border rounded-md shadow-sm focus:ring focus:ring-blue-200',
           }}
         />
       </td>

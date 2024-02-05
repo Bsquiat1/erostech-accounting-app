@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setProductQuantity,deductSelectedQuantities } from '../../redux/depotSlice';
 import { setInvoiceData, setCustomerName, setCustomerEmail, setCustomerPhone } from '../../redux/paymentInvoiceSlice';
 import { Link } from 'react-router-dom';
+import Navbar from '../navigation/Navbar';
 
 const LoadAuthority = () => {
   const depots = useSelector((state) => state.depot.depots);
@@ -53,7 +54,9 @@ const LoadAuthority = () => {
   };
 
   return (
-    <div className="p-4 ml-64 mt-16">
+   <>
+   <Navbar />
+   <div className="p-4 ml-64 mt-16">
       <h1 className="text-3xl font-bold">Load Authority</h1>
       <div className="border border-gray-300 rounded-md p-4 bg-white shadow mt-6">
   <h2 className="text-2xl font-semibold mb-4">Selected Invoice: {invoiceData.invoiceNumber}</h2>
@@ -162,6 +165,7 @@ const LoadAuthority = () => {
 
       {error && <p className="text-red-500 mt-4">{error}</p>}
     </div>
+   </>
   );
 };
 

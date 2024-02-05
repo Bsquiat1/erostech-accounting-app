@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from '../navigation/Navbar';
 
 const OrderConfirmationModal = ({ onClose, onConfirm }) => {
   const [orderConfirmed, setOrderConfirmed] = useState(false);
@@ -10,6 +11,8 @@ const OrderConfirmationModal = ({ onClose, onConfirm }) => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl mb-4">Confirm Order</h2>
@@ -36,6 +39,7 @@ const OrderConfirmationModal = ({ onClose, onConfirm }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
