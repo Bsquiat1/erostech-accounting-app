@@ -13,7 +13,7 @@ import InventoryList from './components/inventory/InventoryList';
 import Login from './components/authentication/Login'
 import Register from './components/authentication/Register';
 import Dashboard from './components/dashboard/Dashboard';
-import InvoiceForm from './components/invoice/InvoiceForm';
+
 import Customers from './components/customer/Customers';
 import Companies from './components/company/Companies';
 import CustomerEnquiry from './components/sales/CustomerEnquiry';
@@ -24,22 +24,24 @@ import LoadAuthority from './components/sales/LoadAuthority';
 import Settings from './components/Settings';
 import Invoices from './components/invoices/Invoices';
 import GatePass from './components/sales/GatePass';
-import SupplierInvoice from './components/supply/SupplierInvoice';
 
-import Suppliers from './components/suppliers/Suppliers';
+
+
 import SalesInvoice from './components/sales/SalesInvoice';
-import Payment from './components/supply/Payment';
-import SupplyType from './components/supply/SupplyType'
-import ProInvoice from './components/ProInvoice';
+
+
 import Gatepass from './components/Gatepass';
 import Depots from './components/Depots';
-import Entries from './components/entries/Entries';
+
 
 import FuelMovement from './components/secondary-pages/fuel-movement';
 import SetBalance from './components/secondary-pages/setBalance';
 import Users from './components/users/users';
 import Password from './components/authentication/password';
 import Messages from './components/messaging/messages';
+import Supplies from './components/supplies/supplies';
+import ProfomaInvoice from './components/invoices/profomaInvoice';
+import FinalInvoice from './components/invoices/finalInvoice';
 
 
 const App = () => {
@@ -87,7 +89,7 @@ const App = () => {
 
           <Route path="" element={<Login />} />
           <Route path="/signup" element={<Register />} />
-          <Route path="/invoice-form" element={<InvoiceForm />} />
+        
           <Route path="/customer-data" element={<Customers />} />
           <Route path="/company-data" element={<Companies />} />
           
@@ -112,16 +114,60 @@ const App = () => {
               />
             }
           />
+         
+        
+          <Route path="/invoices"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <Invoices />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+        
+        <Route path="/final-invoice"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <FinalInvoice />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
 
-          <Route path="/invoice-data" element={<Invoices/>} />
-          <Route path="/supplier-invoice" element={<SupplierInvoice />} />
-          
-          <Route path="/suppliers" element={<Suppliers />} />
-          <Route path="/sales-invoice" element={<SalesInvoice />} />
-          <Route path="/payment" element={<Payment/>} />
-          <Route path="/supply-type" element={<SupplyType/>} />
-          <Route path="/pro-invoice" element={<ProInvoice />} />
-          <Route path="/entry-data" element={<Entries />} />
+        <Route path="/profoma-invoice"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <ProfomaInvoice />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+         
+          <Route path="/supplies"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <Supplies />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+         
 
           <Route path="/messages"
             element={

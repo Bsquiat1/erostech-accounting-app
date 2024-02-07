@@ -134,14 +134,12 @@ const handleSignOutClick = async () => {
                   className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                   aria-expanded={isUserDropdownOpen ? 'true' : 'false'}
                   data-dropdown-toggle="dropdown-user"
-                  onClick={toggleUserDropdown}
-                >
+                  onClick={toggleUserDropdown}>
                   <span className="sr-only">Open user menu</span>
                   <img
                     className="w-8 h-8 rounded-full"
                     src={user?.image || 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg'} 
-                    alt="user photo"
-                  />
+                    alt="user photo"/>
                 </button>
 
                 {isUserDropdownOpen && (
@@ -164,8 +162,7 @@ const handleSignOutClick = async () => {
               <Link
                 to="/dashboard" 
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                role="menuitem"
-              >
+                role="menuitem">
                 Dashboard
               </Link>
             </li>
@@ -188,35 +185,36 @@ const handleSignOutClick = async () => {
                         </a>
                       </li>
                       <li>
-                        
-          <button
-            onClick={handleSignOutClick}
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-          >
-            Sign Out
-          </button>
-          {signOutMessage && (
-        <div className={signOutMessage.type === 'success' ? 'text-green-500 px-4 py-2 text-sm ' : 'text-red-500 px-4 py-2 text-sm '}>
-          {signOutMessage.text}
-        </div>
-      )}
+
+                      <Link to="/">
+                        <button
+                          onClick={handleSignOutClick}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">
+                          Sign Out
+                        </button>
+                      </Link>
+          
+                      {signOutMessage && (
+                    <div className={signOutMessage.type === 'success' ? 'text-green-500 px-4 py-2 text-sm ' : 'text-red-500 px-4 py-2 text-sm '}>
+                      {signOutMessage.text}
+                    </div>
+                  )}
         
        
-            </li>
-                    </ul>
+                </li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </nav>
+          </nav>
 
       <aside
         id="logo-sidebar"
         className="fixed top-12 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
-        aria-label="Sidebar"
-      >
+        aria-label="Sidebar">
         <Sidebar />
       </aside>
     </div>

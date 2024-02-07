@@ -39,17 +39,28 @@ const Depots = () => {
       });
 
       // Assuming the response contains a token or user data
-      console.log(response.data);
+     
       if(response.data.success){
-        console.log("fuel balance created successfully")
+        fetchBalances();
+        setBalanceFuelType('');
+        setBalanceQuantity('');
+        setBalanceDepoId('');
+        handleClose();
       }else{
-        console.log("fuel balance created failed")
+        setBalanceFuelType('');
+        setBalanceQuantity('');
+        setBalanceDepoId('');
+
+        handleClose()
       }
 
-      // Redirect or handle success based on the response
-      // navigate('/dashboard'); 
     } catch (error) {
-      console.error('Create balance failed:', error.message);
+      setBalanceFuelType('');
+        setBalanceQuantity('');
+        setBalanceDepoId('');
+
+        handleClose()
+
   
     }
   };
@@ -87,54 +98,84 @@ const Depots = () => {
         quantity :movementQuantity
       });
 
-      // Assuming the response contains a token or user data
-      console.log(response.data);
-      // if(response.data.status){
-      //   console.log("fuel movement created successfully")
-      // }else{
-      //   console.log("fuel movement created failed")
-      // }
+     
+      if(response.data.success){
+        setMovementDepoId('');
+        setEntryNumber('');
+        setVessel('');
+        setMovementQuantity('');
+        setEntry('');
+        setEntryDate('');
+        setMovementFuelType('');
 
-      // Redirect or handle success based on the response
-      // navigate('/dashboard'); 
+        fetchBalances()
+        handleMovementClose()
+      }else{
+        setMovementDepoId('');
+        setEntryNumber('');
+        setVessel('');
+        setMovementQuantity('');
+        setEntry('');
+        setEntryDate('');
+        setMovementFuelType('');
+
+        
+        handleMovementClose()
+      }
+
     } catch (error) {
-      console.error('Create movement failed:', error.message);
+      setMovementDepoId('');
+        setEntryNumber('');
+        setVessel('');
+        setMovementQuantity('');
+        setEntry('');
+        setEntryDate('');
+        setMovementFuelType('');
+
+      
+      handleMovementClose()
   
     }
   };
 
 
   useEffect(() => {
-    fetch(`${BASE_URL}/fuelDepots`)
-       .then((response) => response.json())
-       .then((data) => {
-         setStations(data.station);
-       })
-       .catch((error) => console.error('Error fetching stations:', error));
+    fetchDepots();
+    fetchFuelTypes();
+    fetchBalances();
    }, []);
    
 
-   useEffect(() => {
-    fetch(`${BASE_URL}/fuelTypes`)
-       .then((response) => response.json())
-       .then((data) => {
-         setFuelTypes(data.fuel);
-         console.log("fuel types is " + data.fuel)
-       })
-       .catch((error) => console.error('Error fetching fuel types:', error));
-   }, []);
+   const fetchDepots = () =>{
+    fetch(`${BASE_URL}/fuelDepots`)
+    .then((response) => response.json())
+    .then((data) => {
+      setStations(data.station);
+    })
+    .catch((error) => console.error('Error fetching stations:', error));
+   }
    
-   useEffect(() => {
+   const fetchFuelTypes = () =>{
+    fetch(`${BASE_URL}/fuelTypes`)
+    .then((response) => response.json())
+    .then((data) => {
+      setFuelTypes(data.fuel);
+      console.log("fuel types is " + data.fuel)
+    })
+    .catch((error) => console.error('Error fetching fuel types:', error));
+   }
+
+   const fetchBalances = () =>{
     fetch(`${BASE_URL}/fetchBalances`)
-       .then((response) => response.json())
-       .then((data) => {
-         setAllBalances(data.balance );
-        console.log("Fuel balances:", data);
-       })
-       .catch((error) => {
-         setError('Error fetching balances. Please try again.');
-       });
-   }, []);
+    .then((response) => response.json())
+    .then((data) => {
+      setAllBalances(data.balance );
+     console.log("Fuel balances:", data);
+    })
+    .catch((error) => {
+      setError('Error fetching balances. Please try again.');
+    });
+   }
 
   const handleAdjustQuantity = (amount) => {
     const currentQuantity =

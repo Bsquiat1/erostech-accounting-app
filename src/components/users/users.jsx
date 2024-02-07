@@ -11,6 +11,10 @@ function Users() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [alertVariant, setAlertVariant] = useState(null);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+
 
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
@@ -18,15 +22,7 @@ function Users() {
   const [allUsers, getAllUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/get-users`)
-       .then((response) => response.json())
-       .then((data) => {
-         getAllUsers(data.user || []);
-         console.log("users are " + data.user)
-       })
-       .catch((error) => {
-         setError('Error fetching balances. Please try again.');
-       });
+    fetchUsers();
    }, []);
 
 
@@ -39,21 +35,49 @@ function Users() {
       });
 
       // Assuming the response contains a token or user data
-      console.log(response.data);
-      if(response.data.success){
+      if(response.data.status){
+        setAlertVariant('success');
+        setAlertMessage('User Created SuccessFully');
+
+        fetchUsers();
+
         handleClose(); 
+
+        setEmail('');
+        setRole('');
+
+        
       }else{
           //pass error message
+          setAlertVariant('danger');
+          setAlertMessage('User Creation Failed');
           handleClose(); 
+
+          setEmail('');
+          setRole('');
       }
 
       // Redirect or handle success based on the response
       // navigate('/dashboard'); 
     } catch (error) {
-      console.error('Login failed:', error.message);
+      setAlertVariant('danger');
+      setAlertMessage(error);
       handleClose(); 
-  
+      
+      setEmail('');
+      setRole('');
     }
+  };
+
+  const fetchUsers = () => {
+    fetch(`${BASE_URL}/get-users`)
+      .then((response) => response.json())
+      .then((data) => {
+        getAllUsers(data.user || []);
+      })
+      .catch((error) => {
+        setError('Error fetching users. Please try again.');
+      });
   };
 
   const deleteUser = (id) =>{
@@ -80,7 +104,11 @@ function Users() {
     <>
     <Navbar />
     <div className="users p-4 mt-8 ml-64 body">
-
+      {showAlert && (
+          <Alert variant={alertVariant} onClose={() => setShowAlert(false)} dismissible>
+            {alertMessage}
+          </Alert>
+        )}
    
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -116,8 +144,8 @@ function Users() {
                   >
                   <option selected>Select A role</option>
                   <option value="1">Admin</option>
-                  <option value="2">Manager</option>
-                  <option value="3">Finance</option>
+                  {/* <option value="2">Manager</option>
+                  <option value="3">Finance</option> */}
                   <option value="4">User</option>
                 </select>
               </div>

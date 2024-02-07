@@ -3,6 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie'; 
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../constants/constants';
+import Alert from 'react-bootstrap/Alert';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,8 +11,9 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-
-
+  const [alertVariant, setAlertVariant] = useState(null);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,20 +23,22 @@ const Login = () => {
         password: password,
       });
 
-      // Assuming the response contains a token or user data
-      console.log(response.data);
-      if(response.data.success){
+      if (response.data.success) {
         Cookies.set('token', response.data.token);
+        setAlertVariant('success');
+        setAlertMessage('Login success!');
+        setShowAlert(true);
         navigate('/dashboard'); 
-      }else{
-
+      } else {
+        setAlertVariant('danger');
+        setAlertMessage('Failed to login!');
+        setShowAlert(true);
       }
-
-      // Redirect or handle success based on the response
-      // navigate('/dashboard'); 
     } catch (error) {
       console.error('Login failed:', error.message);
-  
+      setAlertVariant('danger');
+      setAlertMessage('Failed to login!');
+      setShowAlert(true);
     }
   };
 
@@ -42,6 +46,11 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="p-6 max-w-md w-full bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-semibold mb-4">Login</h2>
+        {showAlert && (
+          <Alert variant={alertVariant} onClose={() => setShowAlert(false)} dismissible>
+            {alertMessage}
+          </Alert>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block font-medium mb-1">
