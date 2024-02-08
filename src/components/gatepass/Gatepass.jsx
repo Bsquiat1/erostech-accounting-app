@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../constants/constants';
+import Alert from 'react-bootstrap/Alert';
 
 const GatePassForm = () => {
   const [selectedDepot, setSelectedDepot] = useState('');
@@ -14,68 +17,95 @@ const GatePassForm = () => {
   const [issued_by, setIssuedBy] = useState('');
   const [warning, setWarning] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const navigate = useNavigate();
 
-    axios.post('/gatepasses', {
-      issued_at: new Date(),
-      issued_by,
-      depot: selectedDepot,
-      product_type,
-      quantity_leaving: parseInt(quantity_leaving), // Ensure it's a number
-      destination,
-      vehicle_details,
-      user_id,
-    })
-    .then(response => {
-      setSuccessMessage('Gate pass created successfully!');
-      setError(null);
-      // Reset form fields if needed
-      setSelectedDepot('');
-      setProduct_type('');
-      setQuantity_leaving(0);
-      setDestination('');
-      setVehicle_details('');
-      setUser_id('');
-      setIssuedAt('');
-      setIssuedBy('');
-    })
-    .catch(error => {
-      setError('Failed to create gate pass. Please check your inputs.');
-      setSuccessMessage('');
-      console.error('Error creating gate pass:', error);
-    });
-  };
+  const [alertVariant, setAlertVariant] = useState(null);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
-  const getCurrentDate = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = (now.getMonth() + 1).toString().padStart(2, '0');
-    const day = now.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
 
-  useEffect(() => {
-    setIssuedAt(getCurrentDate());
-  }, []);
 
-  useEffect(() => {
-    axios.get('/member_details')
-      .then(response => {
-        const currentUser = response.data;
-        if (currentUser) {
-          setIssuedBy(currentUser.name);
-          setUser_id(currentUser.id);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching current user:', error);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(`${BASE_URL}/createGatePass`, {
+        issueAt: issued_at,
+        issueBy: issued_by,
+        Depot: selectedDepot,
+        productType: product_type,
+        quantityLeaving: quantity_leaving,
+        destination: destination,
+        vehicleDetails: vehicle_details,
+       
       });
-  }, []);
+
+      if (response.data.success) {
+        
+        setAlertVariant('success');
+        setAlertMessage('Gatepass Created!');
+        setShowAlert(true);
+
+        // Open the PDF in a new tab
+        window.open('data:application/pdf;base64,' + response.data.gatePass, '_blank');
+
+        setSelectedDepot('');
+        setIssuedAt('');
+        setIssuedBy('');
+        setSelectedDepot('');
+        setProduct_type('');
+        setQuantity_leaving('');
+        setDestination('');
+        setVehicle_details('');
+        
+      } else {
+
+        setAlertVariant('danger');
+        setAlertMessage('Gatepass Creation Failed!');
+        setShowAlert(true);
+
+        setSelectedDepot('');
+        setIssuedAt('');
+        setIssuedBy('');
+        setSelectedDepot('');
+        setProduct_type('');
+        setQuantity_leaving('');
+        setDestination('');
+        setVehicle_details('');
+      }
+    } catch (error) {
+      console.error('Login failed:', error.message);
+      setAlertVariant('danger');
+      setAlertMessage('Failed to login!');
+      setShowAlert(true);
+
+      setSelectedDepot('');
+        setIssuedAt('');
+        setIssuedBy('');
+        setSelectedDepot('');
+        setProduct_type('');
+        setQuantity_leaving('');
+        setDestination('');
+        setVehicle_details('');
+    }
+  };
+
+
+
+
+  const NavigateToGatePasses = () => {
+    return navigate('/allgatepasses');
+  };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
+      
       <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-md">
+      {showAlert && (
+          <Alert variant={alertVariant} onClose={() => setShowAlert(false)} dismissible>
+            {alertMessage}
+          </Alert>
+        )}
+      
         <h2 className="text-lg font-semibold mb-4 text-center">Gate Pass</h2>
         {successMessage && <p className="text-green-600 mb-4">{successMessage}</p>}
         {warning && (
@@ -148,13 +178,19 @@ const GatePassForm = () => {
               className="border border-gray-300 rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
             />
           </div>
+          <div className="buttons">
+      
           <button
             type="submit"
-            className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-          >
-            Generate Gate Pass
+            className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Generate Gate Pass
           </button>
+
+            <button className='ml-3 btn btn-success' onClick={NavigateToGatePasses}>View All Gate Passes</button>
+
+          </div>
+         
         </form>
+        
         {error && <p className="text-red-600 mt-4">{error}</p>}
       </div>
     </div>

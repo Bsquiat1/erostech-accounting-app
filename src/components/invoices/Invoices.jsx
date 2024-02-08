@@ -77,11 +77,9 @@ function Invoices() {
               Invoice Number
             </th>
             <th scope="col" className="p-4">
-              Bill Amount
+              Company
             </th>
-            <th scope="col" className="p-4">
-              Amount Paid
-            </th>
+         
             <th scope="col" className="p-4">
               Billing Date
             </th>
@@ -94,8 +92,7 @@ function Invoices() {
           {invoices.map(invoice => (
             <tr key={invoice.id}>
               <td className="p-4">{invoice.invoiceNumber}</td>
-              <td className="p-4">{invoice.billAmount}</td>
-              <td className="p-4">{invoice.amountPaid}</td>
+              <td className="p-4">{invoice.ReceiverCompany}</td>
               <td className="p-4">{invoice.invoiceDate}</td>
               <td className="p-4">{invoice.dueDate}</td>
             </tr>

@@ -4,6 +4,8 @@ import Sidebar from './Sidebar';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'; 
 import { update } from '../../redux/userSlice';
+import Cookies from 'js-cookie';
+
 
 
 
@@ -77,6 +79,8 @@ const handleSignout = async () => {
 
 const handleSignOutClick = async () => {
   const signOutResult = await handleSignout();
+
+  Cookies.remove('token');
 
   if (signOutResult.success) {
     setSignOutMessage({ type: 'success', text: signOutResult.message });

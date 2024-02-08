@@ -23,14 +23,14 @@ import PaymentReceived from './components/sales/PaymentReceived';
 import LoadAuthority from './components/sales/LoadAuthority';
 import Settings from './components/Settings';
 import Invoices from './components/invoices/Invoices';
-import GatePass from './components/sales/GatePass';
+
 
 
 
 import SalesInvoice from './components/sales/SalesInvoice';
 
 
-import Gatepass from './components/Gatepass';
+import Gatepass from './components/gatepass/Gatepass';
 import Depots from './components/Depots';
 
 
@@ -42,6 +42,8 @@ import Messages from './components/messaging/messages';
 import Supplies from './components/supplies/supplies';
 import ProfomaInvoice from './components/invoices/profomaInvoice';
 import FinalInvoice from './components/invoices/finalInvoice';
+import GatePassForm from './components/gatepass/Gatepass';
+import AllGatePasses from './components/gatepass/AllGatePasses';
 
 
 const App = () => {
@@ -99,7 +101,7 @@ const App = () => {
           <Route path="/payment-received" element={<PaymentReceived />} />
           <Route path="/load-authority" element={<LoadAuthority />} />
           <Route path="/generate-invoice" element={<Invoices />} />
-          <Route path="/generate-gate-pass" element={<GatePass />} />
+          <Route path="/generate-gate-pass" element={<GatePassForm />} />
           <Route path="/settings" element={<Settings />} />
 
           <Route path="/users"
@@ -176,6 +178,19 @@ const App = () => {
                   <React.Fragment>
                     <NavBar />
                     <Messages />
+                  </React.Fragment>
+                }
+              />
+            }
+          />
+
+          <Route path="/allgatepasses"
+            element={
+              <PrivateRoute
+                element={
+                  <React.Fragment>
+                    <NavBar />
+                    <AllGatePasses />
                   </React.Fragment>
                 }
               />
