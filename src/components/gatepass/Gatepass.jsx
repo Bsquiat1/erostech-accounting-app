@@ -7,7 +7,7 @@ import Alert from 'react-bootstrap/Alert';
 const GatePassForm = () => {
   const [selectedDepot, setSelectedDepot] = useState('');
   const [product_type, setProduct_type] = useState('');
-  const [quantity_leaving, setQuantity_leaving] = useState(0);
+  const [quantity_leaving, setQuantity_leaving] = useState('');
   const [destination, setDestination] = useState('');
   const [vehicle_details, setVehicle_details] = useState('');
   const [error, setError] = useState(null);
@@ -16,6 +16,7 @@ const GatePassForm = () => {
   const [issued_at, setIssuedAt] = useState('');
   const [issued_by, setIssuedBy] = useState('');
   const [warning, setWarning] = useState(null);
+  const [recipient_email, setRecipientEmail] = useState('');
 
   const navigate = useNavigate();
 
@@ -36,6 +37,8 @@ const GatePassForm = () => {
         quantityLeaving: quantity_leaving,
         destination: destination,
         vehicleDetails: vehicle_details,
+        recipient_email: recipient_email
+
        
       });
 
@@ -45,9 +48,7 @@ const GatePassForm = () => {
         setAlertMessage('Gatepass Created!');
         setShowAlert(true);
 
-        // Open the PDF in a new tab
-        window.open('data:application/pdf;base64,' + response.data.gatePass, '_blank');
-
+        
         setSelectedDepot('');
         setIssuedAt('');
         setIssuedBy('');
@@ -56,6 +57,7 @@ const GatePassForm = () => {
         setQuantity_leaving('');
         setDestination('');
         setVehicle_details('');
+        setRecipientEmail('');
         
       } else {
 
@@ -71,11 +73,12 @@ const GatePassForm = () => {
         setQuantity_leaving('');
         setDestination('');
         setVehicle_details('');
+        setRecipientEmail('');
       }
     } catch (error) {
       console.error('Login failed:', error.message);
       setAlertVariant('danger');
-      setAlertMessage('Failed to login!');
+      setAlertMessage('Failed to create Gate pass!');
       setShowAlert(true);
 
       setSelectedDepot('');
@@ -86,6 +89,7 @@ const GatePassForm = () => {
         setQuantity_leaving('');
         setDestination('');
         setVehicle_details('');
+        setRecipientEmail('');
     }
   };
 
@@ -121,6 +125,7 @@ const GatePassForm = () => {
               value={issued_at}
               onChange={(e) => setIssuedAt(e.target.value)}
               className="border border-gray-300 rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
+              required
             />
           </div>
           <div className="mb-4">
@@ -130,6 +135,17 @@ const GatePassForm = () => {
               value={issued_by}
               onChange={(e) => setIssuedBy(e.target.value)}
               className="border border-gray-300 rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Recipient Email:</label>
+            <input
+              type="text"
+              value={recipient_email}
+              onChange={(e) => setRecipientEmail(e.target.value)}
+              className="border border-gray-300 rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
+              required
             />
           </div>
           <input type="hidden" value={user_id} />
@@ -140,6 +156,7 @@ const GatePassForm = () => {
               value={selectedDepot}
               onChange={(e) => setSelectedDepot(e.target.value)}
               className="border border-gray-300 rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
+              required
             />
           </div>
           <div className="mb-4">
@@ -149,6 +166,7 @@ const GatePassForm = () => {
               value={product_type}
               onChange={(e) => setProduct_type(e.target.value)}
               className="border border-gray-300 rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
+              required
             />
           </div>
           <div className="mb-4">
@@ -158,6 +176,7 @@ const GatePassForm = () => {
               value={quantity_leaving}
               onChange={(e) => setQuantity_leaving(e.target.value)}
               className="border border-gray-300 rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
+              required
             />
           </div>
           <div className="mb-4">
@@ -167,6 +186,7 @@ const GatePassForm = () => {
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
               className="border border-gray-300 rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
+              required
             />
           </div>
           <div className="mb-4">
@@ -176,6 +196,7 @@ const GatePassForm = () => {
               value={vehicle_details}
               onChange={(e) => setVehicle_details(e.target.value)}
               className="border border-gray-300 rounded-md py-2 px-3 w-full focus:outline-none focus:border-blue-500"
+              required
             />
           </div>
           <div className="buttons">

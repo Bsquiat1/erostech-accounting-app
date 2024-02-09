@@ -118,7 +118,7 @@ const Supplies = () => {
               <td>{supply.quantity}</td>
               <td>{supply.amount}</td>
               <td>
-                <button onClick={() => fetchFile(supply.file)}>View File</button>
+                <button onClick={() => fetchFile(supply.file)}><i class="fa fa-eye" aria-hidden="true"></i></button>
               </td>
             </tr>
           ))}

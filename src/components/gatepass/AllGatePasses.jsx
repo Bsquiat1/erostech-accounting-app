@@ -24,7 +24,7 @@ const AllGatePasses = () => {
     <div className="p-4 mt-10 ml-64 body">
       <div className="row">
         {gatePasses.map((gatePass) => (
-          <div className="col" key={gatePass.id}>
+          <div className="col-3" key={gatePass.id}>
             <div className="card border-0 shadow-lg p-3 mb-5 bg-white rounded" style={{ width: '18rem' }}>
               <div className="card-body">
                 <h5 className="card-title">Gate Pass ID: {gatePass.id}</h5>
@@ -35,6 +35,7 @@ const AllGatePasses = () => {
                 <p className="card-text">Quantity Leaving: {gatePass.quantityLeaving}</p>
                 <p className="card-text">Destination: {gatePass.destination}</p>
                 <p className="card-text">Vehicle Details: {gatePass.vehicleDetails}</p>
+                <p className="card-text">Recipient Details: {gatePass.recipientEmail}</p>
                 <a href="#" className="btn btn-primary">View Gate Pass</a>
               </div>
             </div>
