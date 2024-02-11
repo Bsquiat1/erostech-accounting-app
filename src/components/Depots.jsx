@@ -14,6 +14,7 @@ const Depots = () => {
   const [error, setError] = useState(null);
   const [allBalances, setAllBalances] = useState([]);
   const [fuelTypes, setFuelTypes] = useState([]);
+  const [loading, setLoading] = useState(false); // State to track loading state
 
 
   //fuel Balance logic
@@ -31,6 +32,7 @@ const Depots = () => {
 
   const createBalance = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(`${BASE_URL}/createBalance`, {
         depo_id: balance_depo_id,
@@ -60,8 +62,8 @@ const Depots = () => {
         setBalanceDepoId('');
 
         handleClose()
-
-  
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -87,6 +89,7 @@ const Depots = () => {
 
   const createFuelMovement = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(`${BASE_URL}/fuelMovements`, {
         entry_no : entryNumber,
@@ -135,6 +138,8 @@ const Depots = () => {
       
       handleMovementClose()
   
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -315,11 +320,20 @@ const Depots = () => {
                  
                 </select>
               </div>
+              {loading ? (
+              <div className="text-center">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+            ) : (
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
-               Create Balance
+                className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+              >
+                Create Balance
               </button>
+            )}
             </form>
           </div>
         </div>
@@ -428,11 +442,20 @@ const Depots = () => {
               </div>
 
               
-              <button
-                type="submit"
-                className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
-               Move
-              </button>
+              {loading ? (
+                <div className="text-center">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+                >
+                  Move
+                </button>
+              )}
             </form>
           </div>
         </div>

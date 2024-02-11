@@ -14,6 +14,7 @@ const Supplies = () => {
   const [amount, setAmount] = useState('');
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState('');
+  const [loading, setLoading] = useState(false); // State to track loading state
 
   const [supplies, setSupplies] = useState([]);
 
@@ -44,6 +45,7 @@ const Supplies = () => {
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
         const formData = new FormData(); // Create FormData object
         formData.append('name', name);
@@ -86,6 +88,8 @@ const Supplies = () => {
         setFileName('');
 
       handleClose()
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -150,7 +154,20 @@ const Supplies = () => {
                   <input type="file" id="file" className="w-full border rounded-lg py-2 px-3" onChange={handleFileChange} required/>
                   {fileName && <p>Selected File: {fileName}</p>}
                 </div>
-                <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Create</button>
+                {loading ? (
+                  <div className="text-center">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+                  >
+                    Create
+                  </button>
+                )}
               </form>
             </div>
           </div>

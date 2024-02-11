@@ -14,9 +14,11 @@ const Login = () => {
   const [alertVariant, setAlertVariant] = useState(null);
   const [alertMessage, setAlertMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
+  const [loading, setLoading] = useState(false); // State to track loading state
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true); // Set loading to true when login request starts
     try {
       const response = await axios.post(`${BASE_URL}/login`, {
         email: email,
@@ -39,6 +41,8 @@ const Login = () => {
       setAlertVariant('danger');
       setAlertMessage('Failed to login!');
       setShowAlert(true);
+    } finally {
+      setLoading(false); // Set loading to false when login request completes
     }
   };
 
@@ -78,12 +82,20 @@ const Login = () => {
               required
             />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-          >
-            Log in
-          </button>
+          {loading ? (
+            <div className="text-center">
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+            >
+              Log in 
+            </button>
+          )}
         </form>
       </div>
     </div>

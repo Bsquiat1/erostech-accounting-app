@@ -15,10 +15,13 @@ function ProfomaInvoice() {
     const [quantity, setQuantity] = useState('');
     const [amount, setAmount] = useState('');
 
+    const [loading, setLoading] = useState(false); // State to track loading state
+
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);
         try {
           const response = await axios.post(`${BASE_URL}/generateProfomaInvoice`, {
             receiverName: receiverName,
@@ -46,6 +49,8 @@ function ProfomaInvoice() {
         } catch (error) {
           console.error('Login failed:', error.message);
       
+        }finally{
+          setLoading(false);
         }
       };
   
@@ -113,7 +118,20 @@ function ProfomaInvoice() {
             <button className='btn btn-primary mb-2'><i class="fa fa-plus" aria-hidden="true"></i></button>
 
 
-            <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Create</button>
+                {loading ? (
+                  <div className="text-center">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+                  >
+                    Create
+                  </button>
+                )}
         </form>
     </div>
   );

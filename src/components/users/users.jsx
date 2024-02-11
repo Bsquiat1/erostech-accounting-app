@@ -6,6 +6,7 @@ import { Modal, Button } from "react-bootstrap";
 import axios from 'axios';
 import { BASE_URL } from '../constants/constants';
 
+
 function Users() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -14,6 +15,7 @@ function Users() {
   const [alertVariant, setAlertVariant] = useState(null);
   const [alertMessage, setAlertMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
+  const [loading, setLoading] = useState(false); // State to track loading state
 
 
   const [email, setEmail] = useState('');
@@ -28,6 +30,7 @@ function Users() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(`${BASE_URL}/createUser`, {
         email: email,
@@ -66,6 +69,8 @@ function Users() {
       
       setEmail('');
       setRole('');
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -149,11 +154,20 @@ function Users() {
                   <option value="4">User</option>
                 </select>
               </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
-               Add User
-              </button>
+          {loading ? (
+            <div className="text-center">
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+            >
+              Add User
+            </button>
+          )}
             </form>
           </div>
     </div>

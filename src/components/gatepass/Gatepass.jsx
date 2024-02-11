@@ -17,6 +17,7 @@ const GatePassForm = () => {
   const [issued_by, setIssuedBy] = useState('');
   const [warning, setWarning] = useState(null);
   const [recipient_email, setRecipientEmail] = useState('');
+  const [loading, setLoading] = useState(false); // State to track loading state
 
   const navigate = useNavigate();
 
@@ -28,6 +29,7 @@ const GatePassForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(`${BASE_URL}/createGatePass`, {
         issueAt: issued_at,
@@ -49,31 +51,12 @@ const GatePassForm = () => {
         setShowAlert(true);
 
         
-        setSelectedDepot('');
-        setIssuedAt('');
-        setIssuedBy('');
-        setSelectedDepot('');
-        setProduct_type('');
-        setQuantity_leaving('');
-        setDestination('');
-        setVehicle_details('');
-        setRecipientEmail('');
-        
       } else {
 
         setAlertVariant('danger');
         setAlertMessage('Gatepass Creation Failed!');
         setShowAlert(true);
 
-        setSelectedDepot('');
-        setIssuedAt('');
-        setIssuedBy('');
-        setSelectedDepot('');
-        setProduct_type('');
-        setQuantity_leaving('');
-        setDestination('');
-        setVehicle_details('');
-        setRecipientEmail('');
       }
     } catch (error) {
       console.error('Login failed:', error.message);
@@ -81,6 +64,8 @@ const GatePassForm = () => {
       setAlertMessage('Failed to create Gate pass!');
       setShowAlert(true);
 
+
+    }finally{
       setSelectedDepot('');
         setIssuedAt('');
         setIssuedBy('');
@@ -90,6 +75,7 @@ const GatePassForm = () => {
         setDestination('');
         setVehicle_details('');
         setRecipientEmail('');
+      setLoading(false);
     }
   };
 
@@ -201,10 +187,20 @@ const GatePassForm = () => {
           </div>
           <div className="buttons">
       
-          <button
-            type="submit"
-            className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Generate Gate Pass
-          </button>
+                {loading ? (
+                  <div className="text-center">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                  >
+                    Generate Gate Pass
+                  </button>
+                )}
 
             <button className='ml-3 btn btn-success' onClick={NavigateToGatePasses}>View All Gate Passes</button>
 
